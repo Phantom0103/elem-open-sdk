@@ -17,7 +17,7 @@ public class OrderGetRequest extends BaseElemRequest {
     }
 
     @Override
-    public String getVersion() {
-        return "3";
+    public String getBody() {
+        return null;
     }
 }

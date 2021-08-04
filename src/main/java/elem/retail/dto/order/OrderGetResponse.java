@@ -1,5 +1,6 @@
 package elem.retail.dto.order;
 
+import com.elem.retail.api.ElemResponseData;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +13,10 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class OrderGetResponse {
+public class OrderGetResponse extends ElemResponseData {
+
+    private static final long serialVersionUID = -7463196883326593949L;
+
     private String source;
     private Order order;
     private User user;

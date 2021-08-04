@@ -10,4 +10,8 @@ public interface ElemRequest {
     String getCmd();
 
     String getVersion();
+
+    String getEncrypt();
+
+    String getBody();
 }
