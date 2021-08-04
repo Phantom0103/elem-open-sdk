@@ -16,8 +16,16 @@ public class OrderGetRequest extends BaseElemRequest {
         return "order.get";
     }
 
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
     @Override
     public String getBody() {
-        return null;
+        return "{\"order_id\":\"" + orderId + "\"}";
     }
 }
