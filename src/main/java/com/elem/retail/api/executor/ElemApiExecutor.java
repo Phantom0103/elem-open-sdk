@@ -1,5 +1,7 @@
 package com.elem.retail.api.executor;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.elem.retail.api.ElemApiException;
 import com.elem.retail.api.ElemRequest;
 import com.elem.retail.api.ElemResponse;
@@ -31,17 +33,28 @@ public abstract class ElemApiExecutor {
     private String accessToken;
 
     public ElemApiExecutor(String appid, String secret, String accessToken) {
+        if (StringUtils.isBlank(appid) || StringUtils.isBlank(secret)) {
+            throw new NullPointerException("appid or secret is null");
+        }
+
         this.appid = appid;
         this.secret = secret;
         this.accessToken = accessToken;
     }
 
-    public final ElemResponse execute(ElemRequest request) throws ElemApiException {
+    abstract ElemRequest getRequest();
+
+    abstract ElemResponse getResponse(JSONObject response);
+
+    public final ElemResponse execute() throws ElemApiException {
         try {
+            ElemRequest request = getRequest();
             String requestBody = getRequestBody(request);
             String result = HttpUtils.doPost(API_URL, requestBody);
+            JSONObject response = JSON.parseObject(result);
+            return getResponse(response);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
         return null;
