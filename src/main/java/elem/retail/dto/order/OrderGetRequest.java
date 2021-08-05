@@ -1,7 +1,6 @@
 package elem.retail.dto.order;
 
 import com.elem.retail.api.BaseElemRequest;
-import com.elem.retail.api.mapping.ApiField;
 
 /**
  * @Author zhouw
@@ -10,7 +9,6 @@ import com.elem.retail.api.mapping.ApiField;
  */
 public class OrderGetRequest extends BaseElemRequest {
 
-    @ApiField("order_id")
     private String orderId;
 
     @Override

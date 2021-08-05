@@ -16,6 +16,10 @@ public class ElemApiException extends RuntimeException {
         this.errorCode = errorCode;
     }
 
+    public ElemApiException(String errorMessage) {
+        super(errorMessage);
+    }
+
     public String getErrorCode() {
         return errorCode;
     }

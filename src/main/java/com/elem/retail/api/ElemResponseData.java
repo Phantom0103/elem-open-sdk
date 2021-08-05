@@ -10,4 +10,5 @@ import java.io.Serializable;
 public abstract class ElemResponseData implements Serializable {
 
     private static final long serialVersionUID = -8205640551444382408L;
+
 }

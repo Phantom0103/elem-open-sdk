@@ -1,5 +1,6 @@
 package elem.retail.dto.order;
 
+import com.alibaba.fastjson.JSON;
 import com.elem.retail.api.ElemResponseData;
 import lombok.Getter;
 import lombok.Setter;
@@ -244,5 +245,9 @@ public class OrderGetResponse extends ElemResponseData {
             private String latitude;
             private String longitude;
         }
+    }
+
+    public <T extends ElemResponseData> T convert(JSON json) {
+        return null;
     }
 }

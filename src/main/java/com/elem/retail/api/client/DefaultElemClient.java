@@ -31,6 +31,11 @@ public class DefaultElemClient implements ElemClient {
     public static final String REQUEST_TEMPLATE = "body=%s&cmd=%s&encrypt=%s&secret=%s&source=%s&sign=%s&ticket=%s&timestamp=%s&version=%s";
     public static final String REQUEST_TEMPLATE_TOKEN = "access_token=%s&" + REQUEST_TEMPLATE;
 
+    public DefaultElemClient(String appid, String secret) {
+        this.appid = appid;
+        this.secret = secret;
+    }
+
     @Override
     public ElemResponse execute(ElemRequest request) throws ElemApiException {
         return execute0(request, null);
