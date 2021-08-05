@@ -15,7 +15,7 @@ public class OrderGetExecutor extends ElemApiExecutor {
     private OrderGetRequest request;
 
     public OrderGetExecutor(String appid, String secret, String accessToken, OrderGetRequest request) {
-        super(appid, secret, accessToken);
+        super(appid, secret);
         this.request = request;
     }
 

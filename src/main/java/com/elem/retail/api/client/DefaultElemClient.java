@@ -9,6 +9,8 @@ import com.elem.retail.api.ElemResponse;
 import com.elem.retail.api.util.HttpUtils;
 import com.elem.retail.api.util.Md5Utils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.UUID;
 
 /**
@@ -60,25 +62,25 @@ public class DefaultElemClient implements ElemClient {
         return null;
     }
 
-    private String getRequestBody(ElemRequest request, String token) {
+    private String getRequestBody(ElemRequest request, String token) throws UnsupportedEncodingException {
         String ticket = UUID.randomUUID().toString().toUpperCase();
         int timestamp = (int) (System.currentTimeMillis() / 1000);
-        String requestBody;
+        String body = request.getBody();
 
         if (token == null) {
-            String signPlaintext = String.format(SIGN_TEMPLATE, request.getBody(), request.getCmd(), request.getEncrypt(),
+            String signPlaintext = String.format(SIGN_TEMPLATE, body, request.getCmd(), request.getEncrypt(),
                     secret, appid, ticket, timestamp, request.getVersion());
             String sign = Md5Utils.get32Md5(signPlaintext);
-            requestBody = String.format(REQUEST_TEMPLATE, request.getBody(), request.getCmd(), request.getEncrypt(),
+
+            return String.format(REQUEST_TEMPLATE, URLEncoder.encode(body, "utf-8"), request.getCmd(), request.getEncrypt(),
                     secret, appid, sign, ticket, timestamp, request.getVersion());
         } else {
             String signPlaintext = String.format(SIGN_TEMPLATE_TOKEN, token, request.getBody(), request.getCmd(),
                     request.getEncrypt(), secret, appid, ticket, timestamp, request.getVersion());
             String sign = Md5Utils.get32Md5(signPlaintext);
-            requestBody = String.format(REQUEST_TEMPLATE_TOKEN, token, request.getBody(), request.getCmd(),
+
+            return String.format(REQUEST_TEMPLATE_TOKEN, token, URLEncoder.encode(body, "utf-8"), request.getCmd(),
                     request.getEncrypt(), secret, appid, sign, ticket, timestamp, request.getVersion());
         }
-
-        return requestBody;
     }
 }
