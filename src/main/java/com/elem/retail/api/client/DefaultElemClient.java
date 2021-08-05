@@ -2,10 +2,7 @@ package com.elem.retail.api.client;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.elem.retail.api.ElemApiException;
-import com.elem.retail.api.ElemClient;
-import com.elem.retail.api.ElemRequest;
-import com.elem.retail.api.ElemResponse;
+import com.elem.retail.api.*;
 import com.elem.retail.api.util.HttpUtils;
 import com.elem.retail.api.util.Md5Utils;
 
@@ -39,22 +36,26 @@ public class DefaultElemClient implements ElemClient {
     }
 
     @Override
-    public ElemResponse execute(ElemRequest request) throws ElemApiException {
-        return execute0(request, null);
+    public ElemResponse execute(ElemRequest request, ElemResponseData responseData) throws ElemApiException {
+        return execute0(request, responseData, null);
     }
 
     @Override
-    public ElemResponse execute(ElemRequest request, String token) throws ElemApiException {
-        return execute0(request, token);
+    public ElemResponse execute(ElemRequest request, ElemResponseData responseData, String token) throws ElemApiException {
+        return execute0(request, responseData, token);
     }
 
-    private ElemResponse execute0(ElemRequest request, String token) throws ElemApiException {
+    private ElemResponse execute0(ElemRequest request, ElemResponseData responseData, String token) throws ElemApiException {
         try {
             String requestBody = getRequestBody(request, token);
             String result = HttpUtils.doPost(API_URL, requestBody);
             JSONObject response = JSON.parseObject(result);
 
+            ElemResponse elemResponse = new ElemResponse();
+            responseData.parse(response.getJSONObject("data"));
+            elemResponse.setData(responseData);
 
+            return elemResponse;
         } catch (Exception e) {
 
         }

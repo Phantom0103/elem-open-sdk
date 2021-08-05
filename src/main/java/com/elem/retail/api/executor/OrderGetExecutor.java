@@ -1,9 +1,9 @@
 package com.elem.retail.api.executor;
 
-import com.alibaba.fastjson.JSONObject;
 import com.elem.retail.api.ElemRequest;
-import com.elem.retail.api.ElemResponse;
+import com.elem.retail.api.ElemResponseData;
 import elem.retail.dto.order.OrderGetRequest;
+import elem.retail.dto.order.OrderGetResponse;
 
 /**
  * @Author zhouw
@@ -20,8 +20,8 @@ public class OrderGetExecutor extends ElemApiExecutor {
     }
 
     @Override
-    ElemResponse getResponse(JSONObject response) {
-        return null;
+    ElemResponseData getResponseData() {
+        return new OrderGetResponse();
     }
 
     @Override

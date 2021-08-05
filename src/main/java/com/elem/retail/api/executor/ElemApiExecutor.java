@@ -1,9 +1,9 @@
 package com.elem.retail.api.executor;
 
-import com.alibaba.fastjson.JSONObject;
 import com.elem.retail.api.ElemApiException;
 import com.elem.retail.api.ElemRequest;
 import com.elem.retail.api.ElemResponse;
+import com.elem.retail.api.ElemResponseData;
 import com.elem.retail.api.client.DefaultElemClient;
 import org.apache.commons.lang3.StringUtils;
 
@@ -28,13 +28,14 @@ public abstract class ElemApiExecutor {
 
     abstract ElemRequest getRequest();
 
-    abstract ElemResponse getResponse(JSONObject response);
+    abstract ElemResponseData getResponseData();
 
     public final ElemResponse execute() throws ElemApiException {
         try {
             ElemRequest request = getRequest();
+            ElemResponseData responseData = getResponseData();
             DefaultElemClient elemClient = new DefaultElemClient(appid, secret);
-            elemClient.execute(request);
+            return elemClient.execute(request, responseData);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,8 +46,9 @@ public abstract class ElemApiExecutor {
     public final ElemResponse execute(String token) throws ElemApiException {
         try {
             ElemRequest request = getRequest();
+            ElemResponseData responseData = getResponseData();
             DefaultElemClient elemClient = new DefaultElemClient(appid, secret);
-            elemClient.execute(request, token);
+            return elemClient.execute(request, responseData, token);
         } catch (Exception e) {
             e.printStackTrace();
         }

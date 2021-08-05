@@ -19,7 +19,7 @@ public class HttpUtils {
         if (response.isSuccessful()) {
             return response.body().string();
         } else {
-            return "";
+            return null;
         }
     }
 }

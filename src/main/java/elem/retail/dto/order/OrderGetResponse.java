@@ -1,10 +1,12 @@
 package elem.retail.dto.order;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.elem.retail.api.ElemResponseData;
+import com.elem.retail.api.util.DateUtils;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -59,25 +61,25 @@ public class OrderGetResponse extends ElemResponseData {
     @Getter
     @Setter
     public static class Order {
-        private long atShopTime;
+        private Date atShopTime;
         private String businessType;
-        private long cancelTime;
+        private Date cancelTime;
         private long coldBoxFee;
         private long commission;
-        private long confirmTime;
-        private long createTime;
+        private Date confirmTime;
+        private Date createTime;
         private String deliveryParty;
         private String deliveryPhone;
-        private long deliveryTime;
+        private Date deliveryTime;
         private int discountFee;
         private long downFlag;
         private String elemOrderId;
         private int expectTimeMode;
-        private long finishedTime;
+        private Date finishedTime;
         private String invoiceTitle;
         private int isColdBoxOrder;
         private int isPrivate;
-        private long latestSendTime;
+        private Date latestSendTime;
         private String mealNum;
         private int needInvoice;
         private int orderFlag;
@@ -88,12 +90,12 @@ public class OrderGetResponse extends ElemResponseData {
         private int payStatus;
         private int payType;
         private String pickUpCode;
-        private long pickUpTime;
+        private Date pickUpTime;
         private String remark;
         private String responsibleParty;
         private int sendFee;
         private int sendImmediately;
-        private long sendTime;
+        private Date sendTime;
         private int shopFee;
         private int status;
         private String taxerId;
@@ -131,7 +133,7 @@ public class OrderGetResponse extends ElemResponseData {
         public static class ThirdPlInfo {
             private String pickUpCode;
             private String token;
-            private long merchantPickTime;
+            private Date merchantPickTime;
         }
     }
 
@@ -247,7 +249,24 @@ public class OrderGetResponse extends ElemResponseData {
         }
     }
 
-    public <T extends ElemResponseData> T convert(JSON json) {
-        return null;
+    @Override
+    public void parse(JSONObject json) {
+        setSource(json.getString("source"));
+
+        Order order = parseOrder(json.getJSONObject("order"));
+        setOrder(order);
+    }
+
+    private Order parseOrder(JSONObject json) {
+        if (json == null) {
+            return null;
+        }
+
+        Order order = new Order();
+        order.setAtShopTime(DateUtils.castToDate(json.getLongValue("atshop_time"), true));
+        order.setBusinessType(json.getString("business_type"));
+        order.setCancelTime(DateUtils.castToDate(json.getLongValue("cancel_time"), true));
+
+        return order;
     }
 }
