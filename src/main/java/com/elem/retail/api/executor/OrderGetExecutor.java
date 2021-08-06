@@ -3,7 +3,7 @@ package com.elem.retail.api.executor;
 import com.elem.retail.api.ElemRequest;
 import com.elem.retail.api.ElemResponseData;
 import elem.retail.dto.order.OrderGetRequest;
-import elem.retail.dto.order.OrderGetResponse;
+import elem.retail.dto.order.OrderGetResult;
 
 /**
  * @Author zhouw
@@ -21,7 +21,7 @@ public class OrderGetExecutor extends ElemApiExecutor {
 
     @Override
     ElemResponseData getResponseData() {
-        return new OrderGetResponse();
+        return new OrderGetResult();
     }
 
     @Override

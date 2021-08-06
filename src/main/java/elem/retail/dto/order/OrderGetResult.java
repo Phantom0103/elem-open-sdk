@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class OrderGetResponse extends ElemResponseData {
+public class OrderGetResult extends ElemResponseData {
 
     private static final long serialVersionUID = -7463196883326593949L;
 
