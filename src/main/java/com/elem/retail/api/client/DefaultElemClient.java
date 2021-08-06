@@ -45,6 +45,7 @@ public class DefaultElemClient implements ElemClient {
         return execute0(request, responseData, token);
     }
 
+    @SuppressWarnings("unchecked")
     private ElemResponse execute0(ElemRequest request, ElemResponseData responseData, String token) throws ElemApiException {
         try {
             String requestBody = getRequestBody(request, token);

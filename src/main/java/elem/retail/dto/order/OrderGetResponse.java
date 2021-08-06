@@ -1,8 +1,9 @@
 package elem.retail.dto.order;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.elem.retail.api.ElemResponseData;
-import com.elem.retail.api.util.DateUtils;
+import com.elem.retail.api.util.Long2DateDeserializer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -61,8 +62,11 @@ public class OrderGetResponse extends ElemResponseData {
     @Getter
     @Setter
     public static class Order {
+        @JSONField(name = "atshop_time", deserializeUsing = Long2DateDeserializer.class)
         private Date atShopTime;
+        @JSONField(name = "business_type")
         private String businessType;
+        @JSONField(name = "cancel_time", deserializeUsing = Long2DateDeserializer.class)
         private Date cancelTime;
         private long coldBoxFee;
         private long commission;
@@ -251,22 +255,7 @@ public class OrderGetResponse extends ElemResponseData {
 
     @Override
     public void parse(JSONObject json) {
-        setSource(json.getString("source"));
 
-        Order order = parseOrder(json.getJSONObject("order"));
-        setOrder(order);
     }
 
-    private Order parseOrder(JSONObject json) {
-        if (json == null) {
-            return null;
-        }
-
-        Order order = new Order();
-        order.setAtShopTime(DateUtils.castToDate(json.getLongValue("atshop_time"), true));
-        order.setBusinessType(json.getString("business_type"));
-        order.setCancelTime(DateUtils.castToDate(json.getLongValue("cancel_time"), true));
-
-        return order;
-    }
 }
