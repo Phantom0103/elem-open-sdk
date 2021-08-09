@@ -20,8 +20,8 @@ public class OrderGetExecutor extends ElemApiExecutor {
     }
 
     @Override
-    ElemResponseData getResponseData() {
-        return new OrderGetResult();
+    Class<? extends ElemResponseData> getResponseDataClass() {
+        return OrderGetResult.class;
     }
 
     @Override

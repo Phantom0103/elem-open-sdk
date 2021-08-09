@@ -28,14 +28,19 @@ public abstract class ElemApiExecutor {
 
     abstract ElemRequest getRequest();
 
-    abstract ElemResponseData getResponseData();
+    /**
+     * 限定返回类型
+     *
+     * @return
+     */
+    abstract Class<? extends ElemResponseData> getResponseDataClass();
 
     public final ElemResponse execute() throws ElemApiException {
         try {
             ElemRequest request = getRequest();
-            ElemResponseData responseData = getResponseData();
+            Class<? extends ElemResponseData> clazz = getResponseDataClass();
             DefaultElemClient elemClient = new DefaultElemClient(appid, secret);
-            return elemClient.execute(request, responseData);
+            return elemClient.execute(request, null, clazz);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,9 +51,9 @@ public abstract class ElemApiExecutor {
     public final ElemResponse execute(String token) throws ElemApiException {
         try {
             ElemRequest request = getRequest();
-            ElemResponseData responseData = getResponseData();
+            Class<? extends ElemResponseData> clazz = getResponseDataClass();
             DefaultElemClient elemClient = new DefaultElemClient(appid, secret);
-            return elemClient.execute(request, responseData, token);
+            return elemClient.execute(request, token, clazz);
         } catch (Exception e) {
             e.printStackTrace();
         }

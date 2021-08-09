@@ -36,29 +36,30 @@ public class DefaultElemClient implements ElemClient {
     }
 
     @Override
-    public ElemResponse execute(ElemRequest request, ElemResponseData responseData) throws ElemApiException {
-        return execute0(request, responseData, null);
+    public <T extends ElemResponseData> ElemResponse<T> execute(ElemRequest request, Class<T> clazz) throws ElemApiException {
+        return execute0(request, null, clazz);
     }
 
     @Override
-    public ElemResponse execute(ElemRequest request, ElemResponseData responseData, String token) throws ElemApiException {
-        return execute0(request, responseData, token);
+    public <T extends ElemResponseData> ElemResponse<T> execute(ElemRequest request, String token, Class<T> clazz) throws ElemApiException {
+        return execute0(request, token, clazz);
     }
 
     @SuppressWarnings("unchecked")
-    private ElemResponse execute0(ElemRequest request, ElemResponseData responseData, String token) throws ElemApiException {
+    private <T extends ElemResponseData> ElemResponse<T> execute0(ElemRequest request, String token, Class<T> clazz) throws ElemApiException {
         try {
             String requestBody = getRequestBody(request, token);
             String result = HttpUtils.doPost(API_URL, requestBody);
             JSONObject response = JSON.parseObject(result);
 
             ElemResponse elemResponse = new ElemResponse();
-            responseData.parse(response.getJSONObject("data"));
-            elemResponse.setData(responseData);
+            JSONObject dataJson = response.getJSONObject("data");
+            T data = JSON.toJavaObject(dataJson, clazz);
+            elemResponse.setData(data);
 
             return elemResponse;
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
         return null;
