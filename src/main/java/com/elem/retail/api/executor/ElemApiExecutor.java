@@ -17,7 +17,7 @@ public abstract class ElemApiExecutor {
     private String appid;
     private String secret;
 
-    public ElemApiExecutor(String appid, String secret) {
+    ElemApiExecutor(String appid, String secret) {
         if (StringUtils.isBlank(appid) || StringUtils.isBlank(secret)) {
             throw new NullPointerException("appid or secret is null");
         }
