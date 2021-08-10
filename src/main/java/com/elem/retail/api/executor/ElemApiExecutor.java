@@ -36,28 +36,16 @@ public abstract class ElemApiExecutor {
     abstract Class<? extends ElemResponseData> getResponseDataClass();
 
     public final ElemResponse execute() throws ElemApiException {
-        try {
-            ElemRequest request = getRequest();
-            Class<? extends ElemResponseData> clazz = getResponseDataClass();
-            DefaultElemClient elemClient = new DefaultElemClient(appid, secret);
-            return elemClient.execute(request, null, clazz);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        ElemRequest request = getRequest();
+        Class<? extends ElemResponseData> clazz = getResponseDataClass();
+        DefaultElemClient elemClient = new DefaultElemClient(appid, secret);
+        return elemClient.execute(request, null, clazz);
     }
 
     public final ElemResponse execute(String token) throws ElemApiException {
-        try {
-            ElemRequest request = getRequest();
-            Class<? extends ElemResponseData> clazz = getResponseDataClass();
-            DefaultElemClient elemClient = new DefaultElemClient(appid, secret);
-            return elemClient.execute(request, token, clazz);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        ElemRequest request = getRequest();
+        Class<? extends ElemResponseData> clazz = getResponseDataClass();
+        DefaultElemClient elemClient = new DefaultElemClient(appid, secret);
+        return elemClient.execute(request, token, clazz);
     }
 }

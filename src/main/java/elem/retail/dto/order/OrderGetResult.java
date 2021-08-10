@@ -1,6 +1,5 @@
 package elem.retail.dto.order;
 
-import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.elem.retail.api.ElemResponseData;
 import com.elem.retail.api.util.Long2DateDeserializer;
@@ -361,11 +360,6 @@ public class OrderGetResult extends ElemResponseData {
             private String latitude;
             private String longitude;
         }
-    }
-
-    @Override
-    public void parse(JSONObject json) {
-
     }
 
 }
