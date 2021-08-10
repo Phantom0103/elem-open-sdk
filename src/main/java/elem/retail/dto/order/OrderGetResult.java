@@ -160,6 +160,10 @@ public class OrderGetResult extends ElemResponseData {
         private int isPrescription;
         @JSONField(name = "merchant_total_fee")
         private int merchantTotalFee;
+        @JSONField(name = "promise_out_time", deserializeUsing = Long2DateDeserializer.class)
+        private Date promiseOutTime;
+        @JSONField(name = "picking_time")
+        private int pickingTime;
 
         @JSONField(name = "delivery_fee")
         private DeliveryFee deliveryFee;

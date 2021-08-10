@@ -53,7 +53,7 @@ public class DefaultElemClient implements ElemClient {
             JSONObject response = JSON.parseObject(result);
 
             ElemResponse elemResponse = new ElemResponse();
-            JSONObject dataJson = response.getJSONObject("data");
+            JSONObject dataJson = response.getJSONObject("body").getJSONObject("data");
             T data = JSON.toJavaObject(dataJson, clazz);
             elemResponse.setData(data);
 
