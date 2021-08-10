@@ -20,6 +20,10 @@ public class ElemApiException extends RuntimeException {
         super(errorMessage);
     }
 
+    public ElemApiException(String message, Throwable t) {
+        super(message, t);
+    }
+
     public String getErrorCode() {
         return errorCode;
     }

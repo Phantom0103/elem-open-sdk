@@ -14,4 +14,6 @@ public interface ElemRequest {
     String getEncrypt();
 
     String getBody();
+
+    String getKeyword();
 }

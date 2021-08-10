@@ -25,6 +25,11 @@ public class OrderGetRequest extends BaseElemRequest {
     }
 
     @Override
+    public String getKeyword() {
+        return getOrderId();
+    }
+
+    @Override
     public String getBody() {
         return "{\"order_id\":\"" + orderId + "\"}";
     }
