@@ -22,11 +22,15 @@ public class DefaultElemClient implements ElemClient {
 
     public static final String API_URL = "https://api-be.ele.me";
 
-    // 签名模板
+    /**
+     * 签名模板
+     */
     public static final String SIGN_TEMPLATE = "body=%s&cmd=%s&encrypt=%s&secret=%s&source=%s&ticket=%s&timestamp=%s&version=%s";
     public static final String SIGN_TEMPLATE_TOKEN = "access_token=%s&" + SIGN_TEMPLATE;
 
-    // 请求体模板
+    /**
+     * 请求体模板
+     */
     public static final String REQUEST_TEMPLATE = "body=%s&cmd=%s&encrypt=%s&secret=%s&source=%s&sign=%s&ticket=%s&timestamp=%s&version=%s";
     public static final String REQUEST_TEMPLATE_TOKEN = "access_token=%s&" + REQUEST_TEMPLATE;
 
@@ -50,19 +54,41 @@ public class DefaultElemClient implements ElemClient {
         try {
             String requestBody = getRequestBody(request, token);
             String result = HttpUtils.doPost(API_URL, requestBody);
-            JSONObject response = JSON.parseObject(result);
+            if (result == null) {
+                throw new ElemApiException("请求结果为空，url：" + API_URL);
+            }
 
-            ElemResponse elemResponse = new ElemResponse();
-            JSONObject dataJson = response.getJSONObject("body").getJSONObject("data");
-            T data = JSON.toJavaObject(dataJson, clazz);
-            elemResponse.setData(data);
+            JSONObject response = JSON.parseObject(result);
+            ElemResponse elemResponse = getBaseElemResponse(response);
+            JSONObject body = response.getJSONObject("body");
+            if (body != null) {
+                int errno = body.getIntValue("errno");
+                JSONObject data = body.getJSONObject("data");
+                if (errno == 0 && data != null) {
+                    T v = JSON.toJavaObject(data, clazz);
+                    elemResponse.setData(v);
+                }
+            }
 
             return elemResponse;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new ElemApiException(e.getMessage());
         }
 
-        return null;
+    }
+
+    private ElemResponse getBaseElemResponse(JSONObject response) {
+        ElemResponse elemResponse = new ElemResponse();
+        elemResponse.setCmd(response.getString("cmd"));
+        elemResponse.setEncrypt(response.getString("encrypt"));
+        elemResponse.setSign(response.getString("sign"));
+        elemResponse.setSource(response.getString("source"));
+        elemResponse.setTicket(response.getString("ticket"));
+        elemResponse.setTimestamp(response.getLongValue("timestamp"));
+        elemResponse.setTraceid(response.getString("traceid"));
+        elemResponse.setVersion(response.getString("version"));
+
+        return elemResponse;
     }
 
     private String getRequestBody(ElemRequest request, String token) throws UnsupportedEncodingException {

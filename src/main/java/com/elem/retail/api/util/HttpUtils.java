@@ -15,11 +15,9 @@ public class HttpUtils {
         OkHttpClient httpClient = new OkHttpClient();
         RequestBody requestBody = RequestBody.create(param, MediaType.parse("application/x-www-form-urlencoded"));
         Request request = new Request.Builder().url(url).post(requestBody).build();
-        Response response = httpClient.newCall(request).execute();
-        if (response.isSuccessful()) {
-            return response.body().string();
-        } else {
-            return null;
+        try (Response response = httpClient.newCall(request).execute()) {
+            ResponseBody responseBody = response.body();
+            return responseBody == null ? null : responseBody.string();
         }
     }
 }
