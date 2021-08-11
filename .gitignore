@@ -10,3 +10,4 @@ target/
 logs/
 build/
 .gradle/
+src/test/
