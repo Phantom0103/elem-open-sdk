@@ -1,5 +1,7 @@
 package com.elem.retail.api.util;
 
+import com.elem.retail.api.HttpResponseData;
+
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -21,18 +23,24 @@ import java.util.Map;
  */
 public class HttpUtils {
 
-    public static String doPost(String url, String param) throws IOException {
+    public static HttpResponseData doPost(String url, String param) throws IOException {
+        HttpResponseData response = new HttpResponseData();
         HttpURLConnection connection = null;
-        OutputStream out = null;
-        String response = null;
-
         try {
             connection = getConnection(new URL(url), "POST", null, null);
             connection.setConnectTimeout(6000);
             connection.setReadTimeout(6000);
-            out = connection.getOutputStream();
+            connection.setDoOutput(true);
+            connection.setUseCaches(false);
+
+            OutputStream out = connection.getOutputStream();
             out.write(param.getBytes(StandardCharsets.UTF_8));
-            response = getStreamAsString(connection.getInputStream());
+            InputStream in = connection.getInputStream();
+            String body = getStreamAsString(in);
+
+            response.setBody(body);
+            response.setResponseCode(connection.getResponseCode());
+            response.setResponseMessage(connection.getResponseMessage());
         } finally {
             if (connection != null) {
                 connection.disconnect();
@@ -44,7 +52,7 @@ public class HttpUtils {
 
     private static HttpURLConnection getConnection(URL url, String method, Map<String, String> headers, Proxy proxy)
             throws IOException {
-        HttpURLConnection connection = null;
+        HttpURLConnection connection;
         if (proxy == null) {
             connection = (HttpURLConnection) url.openConnection();
         } else {
@@ -83,8 +91,6 @@ public class HttpUtils {
         }
 
         connection.setRequestMethod(method);
-        connection.setDoInput(true);
-        connection.setDoOutput(true);
 
         if (headers != null) {
             String host = headers.get("TOP_HTTP_DNS_HOST");
@@ -105,21 +111,15 @@ public class HttpUtils {
     }
 
     private static String getStreamAsString(InputStream in) throws IOException {
-        try {
-            Reader reader = new InputStreamReader(in, StandardCharsets.UTF_8);
-            StringBuilder sb = new StringBuilder();
-            char[] buffer = new char[1024];
+        Reader reader = new InputStreamReader(in, StandardCharsets.UTF_8);
+        StringBuilder sb = new StringBuilder();
+        char[] buffer = new char[1024];
 
-            int p;
-            while ((p = reader.read(buffer)) > 0) {
-                sb.append(buffer, 0, p);
-            }
-
-            return sb.toString();
-        } finally {
-            if (in != null) {
-                in.close();
-            }
+        int p;
+        while ((p = reader.read(buffer)) > 0) {
+            sb.append(buffer, 0, p);
         }
+
+        return sb.toString();
     }
 }

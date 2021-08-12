@@ -57,17 +57,18 @@ public class DefaultElemClient implements ElemClient {
     private <T extends ElemResponseData> ElemResponse<T> execute0(ElemRequest request, String token, Class<T> clazz) throws ElemApiException {
         try {
             String requestBody = getRequestBody(request, token);
-            String result = HttpUtils.doPost(API_URL, requestBody);
+            HttpResponseData response = HttpUtils.doPost(API_URL, requestBody);
+            String responseBody = response.getBody();
 
-            log.debug("执行请求平台接口，request：{}，response：{}", requestBody, request);
+            log.info("执行请求平台接口，request：{}，response：{}", requestBody, responseBody);
 
-            if (result == null) {
-                throw new ElemApiException("请求结果为空，url：" + API_URL);
+            if (!response.isSuccess()) {
+                throw new ElemApiException("请求失败，response_message：" + response.getResponseMessage());
             }
 
-            JSONObject response = JSON.parseObject(result);
-            ElemResponse elemResponse = initElemResponse(response);
-            JSONObject body = response.getJSONObject("body");
+            JSONObject responseData = JSON.parseObject(responseBody);
+            ElemResponse elemResponse = initElemResponse(responseData);
+            JSONObject body = responseData.getJSONObject("body");
             if (body != null) {
                 String errno = body.getString("errno");
                 String message = body.getString("error");
