@@ -1,6 +1,7 @@
 package com.elem.retail.api.util;
 
 import com.elem.retail.api.HttpResponseData;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -10,11 +11,14 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Map;
+import java.util.Set;
+import java.util.zip.GZIPInputStream;
 
 /**
  * @Author zhouw
@@ -30,14 +34,34 @@ public class HttpUtils {
             connection = getConnection(new URL(url), "POST", null, null);
             connection.setConnectTimeout(connectTimeout);
             connection.setReadTimeout(readTimeout);
-            connection.setDoOutput(true);
-            connection.setUseCaches(false);
 
             OutputStream out = connection.getOutputStream();
             out.write(param.getBytes(StandardCharsets.UTF_8));
-            InputStream in = connection.getInputStream();
-            String body = getStreamAsString(in);
+            String body = getResponseAsString(connection);
 
+            response.setBody(body);
+            response.setResponseCode(connection.getResponseCode());
+            response.setResponseMessage(connection.getResponseMessage());
+            response.setHeaders(connection.getHeaderFields());
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+
+        return response;
+    }
+
+    public static HttpResponseData doGet(String url, Map<String, String> param, int connectTimeout, int readTimeout) throws IOException {
+        HttpResponseData response = new HttpResponseData();
+        HttpURLConnection connection = null;
+        try {
+            String query = buildQuery(param);
+            connection = getConnection(buildGetUrl(url, query), "GET", null, null);
+            connection.setConnectTimeout(connectTimeout);
+            connection.setReadTimeout(readTimeout);
+
+            String body = getResponseAsString(connection);
             response.setBody(body);
             response.setResponseCode(connection.getResponseCode());
             response.setResponseMessage(connection.getResponseMessage());
@@ -91,6 +115,7 @@ public class HttpUtils {
         }
 
         connection.setRequestMethod(method);
+        connection.setDoOutput(true);
 
         if (headers != null) {
             String host = headers.get("TOP_HTTP_DNS_HOST");
@@ -110,16 +135,76 @@ public class HttpUtils {
         return connection;
     }
 
-    private static String getStreamAsString(InputStream in) throws IOException {
-        Reader reader = new InputStreamReader(in, StandardCharsets.UTF_8);
-        StringBuilder sb = new StringBuilder();
-        char[] buffer = new char[1024];
+    private static String getResponseAsString(HttpURLConnection connection) throws IOException {
+        int responseCode = connection.getResponseCode();
+        if (responseCode < HttpURLConnection.HTTP_BAD_REQUEST) {
+            String contentEncoding = connection.getContentEncoding();
+            if ("gzip".equals(contentEncoding)) {
+                return getStreamAsString(new GZIPInputStream(connection.getInputStream()));
+            } else {
+                return getStreamAsString(connection.getInputStream());
+            }
+        } else {
+            // OAuth bad request always return 400 status
+            if (responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
+                InputStream error = connection.getErrorStream();
+                if (error != null) {
+                    return getStreamAsString(error);
+                }
+            }
 
-        int p;
-        while ((p = reader.read(buffer)) > 0) {
-            sb.append(buffer, 0, p);
+            // Client Error 4xx and Server Error 5xx
+            throw new IOException(responseCode + ":" + connection.getResponseMessage());
+        }
+    }
+
+    private static String getStreamAsString(InputStream in) throws IOException {
+        try {
+            Reader reader = new InputStreamReader(in, StandardCharsets.UTF_8);
+            StringBuilder sb = new StringBuilder();
+            char[] buffer = new char[1024];
+
+            int p;
+            while ((p = reader.read(buffer)) > 0) {
+                sb.append(buffer, 0, p);
+            }
+
+            return sb.toString();
+        } finally {
+            if (in != null) {
+                in.close();
+            }
         }
 
-        return sb.toString();
+    }
+
+    private static String buildQuery(Map<String, String> param) throws IOException {
+        if (param == null || param.isEmpty()) {
+            return null;
+        }
+
+        StringBuilder query = new StringBuilder();
+        Set<Map.Entry<String, String>> entries = param.entrySet();
+        for (Map.Entry<String, String> entry : entries) {
+            String name = entry.getKey();
+            String value = entry.getValue();
+            if (StringUtils.isNoneBlank(name, value)) {
+                query.append(name).append("=").append(URLEncoder.encode(value, "UTF-8")).append("&");
+            }
+        }
+
+        if (query.length() > 0) {
+            query.setLength(query.length() - 1);
+        }
+
+        return query.toString();
+    }
+
+    private static URL buildGetUrl(String url, String query) throws IOException {
+        if (StringUtils.isBlank(query)) {
+            return new URL(url);
+        }
+
+        return new URL(url + "?" + query);
     }
 }
