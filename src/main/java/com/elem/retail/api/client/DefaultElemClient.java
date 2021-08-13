@@ -22,6 +22,9 @@ public class DefaultElemClient implements ElemClient {
     private String appid;
     private String secret;
 
+    private int connectTimeout;
+    private int readTimeout;
+
     private static final String API_URL = "https://api-be.ele.me";
     public static final String OK_CODE = "0";
     public static final String ERROR_CODE = "-1";
@@ -38,9 +41,11 @@ public class DefaultElemClient implements ElemClient {
     private static final String REQUEST_TEMPLATE = "body=%s&cmd=%s&encrypt=%s&secret=%s&source=%s&sign=%s&ticket=%s&timestamp=%s&version=%s";
     private static final String REQUEST_TEMPLATE_TOKEN = "access_token=%s&" + REQUEST_TEMPLATE;
 
-    public DefaultElemClient(String appid, String secret) {
+    public DefaultElemClient(String appid, String secret, int connectTimeout, int readTimeout) {
         this.appid = appid;
         this.secret = secret;
+        this.connectTimeout = connectTimeout;
+        this.readTimeout = readTimeout;
     }
 
     @Override
@@ -57,7 +62,7 @@ public class DefaultElemClient implements ElemClient {
     private <T extends ElemResponseData> ElemResponse<T> execute0(ElemRequest request, String token, Class<T> clazz) throws ElemApiException {
         try {
             String requestBody = getRequestBody(request, token);
-            HttpResponseData response = HttpUtils.doPost(API_URL, requestBody);
+            HttpResponseData response = HttpUtils.doPost(API_URL, requestBody, connectTimeout, readTimeout);
             String responseBody = response.getBody();
 
             log.info("执行请求平台接口，request：{}，response：{}", requestBody, responseBody);

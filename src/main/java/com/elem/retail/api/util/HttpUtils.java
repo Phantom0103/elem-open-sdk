@@ -23,13 +23,13 @@ import java.util.Map;
  */
 public class HttpUtils {
 
-    public static HttpResponseData doPost(String url, String param) throws IOException {
+    public static HttpResponseData doPost(String url, String param, int connectTimeout, int readTimeout) throws IOException {
         HttpResponseData response = new HttpResponseData();
         HttpURLConnection connection = null;
         try {
             connection = getConnection(new URL(url), "POST", null, null);
-            connection.setConnectTimeout(6000);
-            connection.setReadTimeout(6000);
+            connection.setConnectTimeout(connectTimeout);
+            connection.setReadTimeout(readTimeout);
             connection.setDoOutput(true);
             connection.setUseCaches(false);
 

@@ -17,6 +17,9 @@ public abstract class ElemApiExecutor {
     private String appid;
     private String secret;
 
+    private int connectTimeout = 60000;
+    private int readTimeout = 60000;
+
     ElemApiExecutor(String appid, String secret) {
         if (StringUtils.isBlank(appid) || StringUtils.isBlank(secret)) {
             throw new NullPointerException("appid or secret is null");
@@ -28,6 +31,14 @@ public abstract class ElemApiExecutor {
 
     abstract ElemRequest getRequest();
 
+    public void setConnectTimeout(int connectTimeout) {
+        this.connectTimeout = connectTimeout;
+    }
+
+    public void setReadTimeout(int readTimeout) {
+        this.readTimeout = readTimeout;
+    }
+
     /**
      * 限定返回类型
      *
@@ -38,14 +49,14 @@ public abstract class ElemApiExecutor {
     public final ElemResponse execute() throws ElemApiException {
         ElemRequest request = getRequest();
         Class<? extends ElemResponseData> clazz = getResponseDataClass();
-        DefaultElemClient elemClient = new DefaultElemClient(appid, secret);
+        DefaultElemClient elemClient = new DefaultElemClient(appid, secret, connectTimeout, readTimeout);
         return elemClient.execute(request, null, clazz);
     }
 
     public final ElemResponse execute(String token) throws ElemApiException {
         ElemRequest request = getRequest();
         Class<? extends ElemResponseData> clazz = getResponseDataClass();
-        DefaultElemClient elemClient = new DefaultElemClient(appid, secret);
+        DefaultElemClient elemClient = new DefaultElemClient(appid, secret, connectTimeout, readTimeout);
         return elemClient.execute(request, token, clazz);
     }
 }
