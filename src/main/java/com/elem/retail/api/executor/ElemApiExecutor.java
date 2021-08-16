@@ -50,7 +50,7 @@ public abstract class ElemApiExecutor {
         ElemRequest request = getRequest();
         Class<? extends ElemResponseData> clazz = getResponseDataClass();
         DefaultElemClient elemClient = new DefaultElemClient(appid, secret, connectTimeout, readTimeout);
-        return elemClient.execute(request, null, clazz);
+        return elemClient.execute(request, clazz);
     }
 
     public final ElemResponse execute(String token) throws ElemApiException {
