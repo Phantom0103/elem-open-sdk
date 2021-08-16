@@ -118,13 +118,8 @@ public class HttpUtils {
         connection.setDoOutput(true);
 
         if (headers != null) {
-            String host = headers.get("TOP_HTTP_DNS_HOST");
-            connection.setRequestProperty("Host", host == null ? url.getHost() : host);
-
             for (Map.Entry<String, String> entry : headers.entrySet()) {
-                if (!"TOP_HTTP_DNS_HOST".equals(entry.getKey())) {
-                    connection.setRequestProperty(entry.getKey(), entry.getValue());
-                }
+                connection.setRequestProperty(entry.getKey(), entry.getValue());
             }
         }
 
@@ -145,15 +140,11 @@ public class HttpUtils {
                 return getStreamAsString(connection.getInputStream());
             }
         } else {
-            // OAuth bad request always return 400 status
-            if (responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
-                InputStream error = connection.getErrorStream();
-                if (error != null) {
-                    return getStreamAsString(error);
-                }
+            InputStream error = connection.getErrorStream();
+            if (error != null) {
+                return getStreamAsString(error);
             }
 
-            // Client Error 4xx and Server Error 5xx
             throw new IOException(responseCode + ":" + connection.getResponseMessage());
         }
     }
