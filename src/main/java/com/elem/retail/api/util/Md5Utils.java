@@ -1,7 +1,8 @@
 package com.elem.retail.api.util;
 
+import com.elem.retail.api.ElemConstants;
+
 import java.math.BigInteger;
-import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -38,7 +39,7 @@ public class Md5Utils {
     public static String get32Md5(String input) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] messageDigest = md.digest(input.getBytes(Charset.forName("UTF-8")));
+            byte[] messageDigest = md.digest(input.getBytes(ElemConstants.DEFAULT_CHARSET));
             BigInteger number = new BigInteger(SIGNUM, messageDigest);
             String hashtext = number.toString(HEX_FLAG);
             while (hashtext.length() < SIGN_LENGTH) {

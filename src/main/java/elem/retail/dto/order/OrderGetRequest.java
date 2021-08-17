@@ -9,6 +9,8 @@ import com.elem.retail.api.BaseElemRequest;
  */
 public class OrderGetRequest extends BaseElemRequest {
 
+    private static final long serialVersionUID = -6975358305836040872L;
+
     private String orderId;
 
     @Override

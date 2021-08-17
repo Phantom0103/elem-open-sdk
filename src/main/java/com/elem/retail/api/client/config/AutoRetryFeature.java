@@ -1,5 +1,7 @@
 package com.elem.retail.api.client.config;
 
+import com.elem.retail.api.ElemConstants;
+
 import java.util.List;
 
 /**
@@ -9,8 +11,8 @@ import java.util.List;
  */
 public class AutoRetryFeature {
 
-    private int retryCount = 3;
-    private long waitTime = 200L;
+    private int retryCount = ElemConstants.DEFAULT_RETRY_COUNT;
+    private long waitTime = ElemConstants.DEFAULT_WAIT_TIME;
     private List<String> retryErrorCodes;
 
     public AutoRetryFeature() {

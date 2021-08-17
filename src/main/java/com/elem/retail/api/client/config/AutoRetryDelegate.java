@@ -1,9 +1,6 @@
 package com.elem.retail.api.client.config;
 
-import com.elem.retail.api.ElemApiException;
-import com.elem.retail.api.ElemRequest;
-import com.elem.retail.api.ElemResponse;
-import com.elem.retail.api.ElemResponseData;
+import com.elem.retail.api.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
@@ -19,8 +16,8 @@ import java.util.Set;
 @Slf4j(topic = "com.elem.retail.api")
 public abstract class AutoRetryDelegate {
 
-    private int retryCount = 3;
-    private long waitTime = 200L;
+    private int retryCount = ElemConstants.DEFAULT_RETRY_COUNT;
+    private long waitTime = ElemConstants.DEFAULT_WAIT_TIME;
 
     private final Set<String> retryErrorCodes = new HashSet<>(Arrays.asList("gw.ISPInvokeError", "gw.ISPConnectError", "gw.ISPInvokeTimeout"));
 

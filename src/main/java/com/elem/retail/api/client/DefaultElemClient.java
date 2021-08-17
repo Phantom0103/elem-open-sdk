@@ -11,6 +11,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.UUID;
 
+import static com.elem.retail.api.ElemConstants.*;
+
 /**
  * @Author zhouw
  * @Description
@@ -24,10 +26,6 @@ public class DefaultElemClient implements ElemClient {
 
     private int connectTimeout;
     private int readTimeout;
-
-    private static final String API_URL = "https://api-be.ele.me";
-    public static final String OK_CODE = "0";
-    public static final String ERROR_CODE = "-1";
 
     /**
      * 签名模板
@@ -107,7 +105,7 @@ public class DefaultElemClient implements ElemClient {
         elemResponse.setVersion(response.getString("version"));
 
         elemResponse.setCode(ERROR_CODE);
-        elemResponse.setMessage("body is null");
+        elemResponse.setMessage(NULL_BODY_ERROR);
 
         return elemResponse;
     }
@@ -122,14 +120,14 @@ public class DefaultElemClient implements ElemClient {
                     secret, appid, ticket, timestamp, request.getVersion());
             String sign = Md5Utils.get32Md5(signPlaintext);
 
-            return String.format(REQUEST_TEMPLATE, URLEncoder.encode(body, "utf-8"), request.getCmd(), request.getEncrypt(),
+            return String.format(REQUEST_TEMPLATE, URLEncoder.encode(body, DEFAULT_CHARSET_NAME), request.getCmd(), request.getEncrypt(),
                     secret, appid, sign, ticket, timestamp, request.getVersion());
         } else {
             String signPlaintext = String.format(SIGN_TEMPLATE_TOKEN, token, request.getBody(), request.getCmd(),
                     request.getEncrypt(), secret, appid, ticket, timestamp, request.getVersion());
             String sign = Md5Utils.get32Md5(signPlaintext);
 
-            return String.format(REQUEST_TEMPLATE_TOKEN, token, URLEncoder.encode(body, "utf-8"), request.getCmd(),
+            return String.format(REQUEST_TEMPLATE_TOKEN, token, URLEncoder.encode(body, DEFAULT_CHARSET_NAME), request.getCmd(),
                     request.getEncrypt(), secret, appid, sign, ticket, timestamp, request.getVersion());
         }
     }

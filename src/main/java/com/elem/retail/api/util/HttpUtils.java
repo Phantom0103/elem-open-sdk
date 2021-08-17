@@ -20,6 +20,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
+import static com.elem.retail.api.ElemConstants.*;
+
 /**
  * @Author zhouw
  * @Description
@@ -123,9 +125,9 @@ public class HttpUtils {
             }
         }
 
-        connection.setRequestProperty("Accept", "text/xml,text/javascript");
-        connection.setRequestProperty("User-Agent", "elem-sdk-java");
-        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+        connection.setRequestProperty("Accept", ACCEPT);
+        connection.setRequestProperty("User-Agent", USER_AGENT);
+        connection.setRequestProperty("Content-Type", CONTENT_TYPE_FORM);
 
         return connection;
     }
@@ -134,7 +136,7 @@ public class HttpUtils {
         int responseCode = connection.getResponseCode();
         if (responseCode < HttpURLConnection.HTTP_BAD_REQUEST) {
             String contentEncoding = connection.getContentEncoding();
-            if ("gzip".equals(contentEncoding)) {
+            if (CONTENT_ENCODING.equals(contentEncoding)) {
                 return getStreamAsString(new GZIPInputStream(connection.getInputStream()));
             } else {
                 return getStreamAsString(connection.getInputStream());
@@ -151,9 +153,9 @@ public class HttpUtils {
 
     private static String getStreamAsString(InputStream in) throws IOException {
         try {
-            Reader reader = new InputStreamReader(in, StandardCharsets.UTF_8);
+            Reader reader = new InputStreamReader(in, DEFAULT_CHARSET);
             StringBuilder sb = new StringBuilder();
-            char[] buffer = new char[1024];
+            char[] buffer = new char[READ_BUFFER_SIZE];
 
             int p;
             while ((p = reader.read(buffer)) > 0) {
@@ -180,7 +182,7 @@ public class HttpUtils {
             String name = entry.getKey();
             String value = entry.getValue();
             if (StringUtils.isNoneBlank(name, value)) {
-                query.append(name).append("=").append(URLEncoder.encode(value, "UTF-8")).append("&");
+                query.append(name).append("=").append(URLEncoder.encode(value, DEFAULT_CHARSET_NAME)).append("&");
             }
         }
 
