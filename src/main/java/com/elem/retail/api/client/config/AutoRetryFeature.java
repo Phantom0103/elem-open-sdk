@@ -2,6 +2,7 @@ package com.elem.retail.api.client.config;
 
 import com.elem.retail.api.ElemConstants;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -31,6 +32,10 @@ public class AutoRetryFeature {
         this.retryErrorCodes = retryErrorCodes;
     }
 
+    public AutoRetryFeature(String... retryErrorCodes) {
+        this.retryErrorCodes = Arrays.asList(retryErrorCodes);
+    }
+
     public AutoRetryFeature(int retryCount, long waitTime) {
         this.retryCount = retryCount;
         this.waitTime = waitTime;
@@ -41,10 +46,21 @@ public class AutoRetryFeature {
         this.retryErrorCodes = retryErrorCodes;
     }
 
+    public AutoRetryFeature(int retryCount, String... retryErrorCodes) {
+        this.retryCount = retryCount;
+        this.retryErrorCodes = Arrays.asList(retryErrorCodes);
+    }
+
     public AutoRetryFeature(int retryCount, long waitTime, List<String> retryErrorCodes) {
         this.retryCount = retryCount;
         this.waitTime = waitTime;
         this.retryErrorCodes = retryErrorCodes;
+    }
+
+    public AutoRetryFeature(int retryCount, long waitTime, String... retryErrorCodes) {
+        this.retryCount = retryCount;
+        this.waitTime = waitTime;
+        this.retryErrorCodes = Arrays.asList(retryErrorCodes);
     }
 
     public int getRetryCount() {
@@ -69,5 +85,9 @@ public class AutoRetryFeature {
 
     public void setRetryErrorCodes(List<String> retryErrorCodes) {
         this.retryErrorCodes = retryErrorCodes;
+    }
+
+    public void setRetryErrorCodes(String... retryErrorCodes) {
+        this.retryErrorCodes = Arrays.asList(retryErrorCodes);
     }
 }
