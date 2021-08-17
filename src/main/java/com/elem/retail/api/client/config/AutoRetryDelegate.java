@@ -1,4 +1,4 @@
-package com.elem.retail.api.client.feature;
+package com.elem.retail.api.client.config;
 
 import com.elem.retail.api.ElemApiException;
 import com.elem.retail.api.ElemRequest;
@@ -6,6 +6,9 @@ import com.elem.retail.api.ElemResponse;
 import com.elem.retail.api.ElemResponseData;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -14,12 +17,12 @@ import java.util.Set;
  * @Date 2021-08-16
  */
 @Slf4j(topic = "com.elem.retail.api")
-public abstract class AutoRetryFeature {
+public abstract class AutoRetryDelegate {
 
     private int retryCount = 3;
     private long waitTime = 200L;
 
-    private Set<String> retryErrorCodes;
+    private final Set<String> retryErrorCodes = new HashSet<>(Arrays.asList("gw.ISPInvokeError", "gw.ISPConnectError", "gw.ISPInvokeTimeout"));
 
     public <T extends ElemResponseData> ElemResponse<T> execute(ElemRequest request, String token, Class<T> clazz) throws ElemApiException {
         ElemResponse<T> response = null;
@@ -29,7 +32,7 @@ public abstract class AutoRetryFeature {
          */
         for (int i = 0; i <= retryCount; i++) {
             if (i > 0) {
-                if (exception == null && ((retryErrorCodes == null || !retryErrorCodes.contains(response.getMessage())))) {
+                if (exception == null && !retryErrorCodes.contains(response.getMessage())) {
                     break;
                 }
 
@@ -78,8 +81,8 @@ public abstract class AutoRetryFeature {
         this.waitTime = waitTime;
     }
 
-    public void setRetryErrorCodes(Set<String> retryErrorCodes) {
-        this.retryErrorCodes = retryErrorCodes;
+    public void addRetryErrorCodes(List<String> retryErrorCodes) {
+        this.retryErrorCodes.addAll(retryErrorCodes);
     }
 
     public abstract <T extends ElemResponseData> ElemResponse<T> clientExecute(ElemRequest request, String token, Class<T> clazz) throws ElemApiException;

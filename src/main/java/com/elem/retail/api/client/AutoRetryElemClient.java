@@ -4,9 +4,8 @@ import com.elem.retail.api.ElemApiException;
 import com.elem.retail.api.ElemRequest;
 import com.elem.retail.api.ElemResponse;
 import com.elem.retail.api.ElemResponseData;
-import com.elem.retail.api.client.feature.AutoRetryFeature;
-
-import java.util.Set;
+import com.elem.retail.api.client.config.AutoRetryDelegate;
+import com.elem.retail.api.client.config.AutoRetryFeature;
 
 /**
  * @Author zhouw
@@ -15,29 +14,33 @@ import java.util.Set;
  */
 public class AutoRetryElemClient extends DefaultElemClient {
 
-    private AutoRetryFeature feature;
+    private AutoRetryDelegate delegate = new AutoRetryDelegate() {
+        @Override
+        public <T extends ElemResponseData> ElemResponse<T> clientExecute(ElemRequest request, String token, Class<T> clazz) throws ElemApiException {
+            return AutoRetryElemClient.super.execute(request, token, clazz);
+        }
+    };
 
     public AutoRetryElemClient(String appid, String secret, int connectTimeout, int readTimeout) {
         super(appid, secret, connectTimeout, readTimeout);
-
-        this.feature = new AutoRetryFeature() {
-            @Override
-            public <T extends ElemResponseData> ElemResponse<T> clientExecute(ElemRequest request, String token, Class<T> clazz) throws ElemApiException {
-                return AutoRetryElemClient.super.execute(request, token, clazz);
-            }
-        };
     }
 
-    public void setRetryCount(int retryCount) {
-        this.feature.setRetryCount(retryCount);
-    }
+    public void setAutoRetryFeature(AutoRetryFeature feature) {
+        if (feature == null) {
+            return;
+        }
 
-    public void setWaitTime(long waitTime) {
-        this.feature.setWaitTime(waitTime);
-    }
+        if (feature.getRetryCount() > 0) {
+            this.delegate.setRetryCount(feature.getRetryCount());
+        }
 
-    public void setRetryErrorCodes(Set<String> retryErrorCodes) {
-        this.feature.setRetryErrorCodes(retryErrorCodes);
+        if (feature.getWaitTime() > 0) {
+            this.delegate.setWaitTime(feature.getWaitTime());
+        }
+
+        if (feature.getRetryErrorCodes() != null && feature.getRetryErrorCodes().size() > 0) {
+            this.delegate.addRetryErrorCodes(feature.getRetryErrorCodes());
+        }
     }
 
     @Override
@@ -47,6 +50,6 @@ public class AutoRetryElemClient extends DefaultElemClient {
 
     @Override
     public <T extends ElemResponseData> ElemResponse<T> execute(ElemRequest request, String token, Class<T> clazz) throws ElemApiException {
-        return this.feature.execute(request, token, clazz);
+        return this.delegate.execute(request, token, clazz);
     }
 }

@@ -4,7 +4,9 @@ import com.elem.retail.api.ElemApiException;
 import com.elem.retail.api.ElemRequest;
 import com.elem.retail.api.ElemResponse;
 import com.elem.retail.api.ElemResponseData;
+import com.elem.retail.api.client.AutoRetryElemClient;
 import com.elem.retail.api.client.DefaultElemClient;
+import com.elem.retail.api.client.config.AutoRetryFeature;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -46,17 +48,70 @@ public abstract class ElemApiExecutor {
      */
     abstract Class<? extends ElemResponseData> getResponseDataClass();
 
+    /**
+     * 执行公开的API请求
+     *
+     * @return
+     * @throws ElemApiException
+     */
     public final ElemResponse execute() throws ElemApiException {
-        ElemRequest request = getRequest();
-        Class<? extends ElemResponseData> clazz = getResponseDataClass();
-        DefaultElemClient elemClient = new DefaultElemClient(appid, secret, connectTimeout, readTimeout);
-        return elemClient.execute(request, clazz);
+        return execute0(null);
     }
 
+    /**
+     * 执行需要授权的API请求
+     *
+     * @param token
+     * @return
+     * @throws ElemApiException
+     */
     public final ElemResponse execute(String token) throws ElemApiException {
+        return execute0(token);
+    }
+
+    /**
+     * 自动重试执行公开的API请求
+     *
+     * @param feature
+     * @return
+     * @throws ElemApiException
+     */
+    public final ElemResponse execute(AutoRetryFeature feature) throws ElemApiException {
+        if (feature == null) {
+            return execute0(null);
+        } else {
+            return execute0(null, feature);
+        }
+    }
+
+    /**
+     * 自动重试执行需要授权的API请求
+     *
+     * @param token
+     * @param feature
+     * @return
+     * @throws ElemApiException
+     */
+    public final ElemResponse execute(String token, AutoRetryFeature feature) throws ElemApiException {
+        if (feature == null) {
+            return execute0(token);
+        } else {
+            return execute0(token, feature);
+        }
+    }
+
+    private ElemResponse execute0(String token) {
         ElemRequest request = getRequest();
         Class<? extends ElemResponseData> clazz = getResponseDataClass();
         DefaultElemClient elemClient = new DefaultElemClient(appid, secret, connectTimeout, readTimeout);
+        return elemClient.execute(request, token, clazz);
+    }
+
+    private ElemResponse execute0(String token, AutoRetryFeature feature) {
+        ElemRequest request = getRequest();
+        Class<? extends ElemResponseData> clazz = getResponseDataClass();
+        AutoRetryElemClient elemClient = new AutoRetryElemClient(appid, secret, connectTimeout, readTimeout);
+        elemClient.setAutoRetryFeature(feature);
         return elemClient.execute(request, token, clazz);
     }
 }
