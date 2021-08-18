@@ -10,7 +10,7 @@ request.setOrderId("5033586381979339461");
 OrderGetExecutor executor = new OrderGetExecutor("your appid", "your secret", request);
 ElemResponse response = executor.execute();
 
-if ("0".equals(response.getCode())) {
+if (ElemConstants.OK_CODE.equals(response.getCode())) {
     OrderGetResult order = (OrderGetResult) response.getData();
     System.out.println(JSON.toJSONString(order));
 } else {
@@ -32,7 +32,7 @@ OrderGetExecutor executor = new OrderGetExecutor("your appid", "your secret", re
 AutoRetryFeature feature = new AutoRetryFeature(3, 500L, "UNKOWN");
 ElemResponse response = executor.execute(feature);
 
-if ("0".equals(response.getCode())) {
+if (ElemConstants.OK_CODE.equals(response.getCode())) {
     OrderGetResult order = (OrderGetResult) response.getData();
     System.out.println(JSON.toJSONString(order));
 } else {
