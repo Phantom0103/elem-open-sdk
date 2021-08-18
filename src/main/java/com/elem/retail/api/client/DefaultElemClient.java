@@ -63,11 +63,11 @@ public class DefaultElemClient implements ElemClient {
             HttpResponseData response = HttpUtils.doPost(API_URL, requestBody, connectTimeout, readTimeout);
             String responseBody = response.getBody();
 
-            log.info("执行请求平台接口，request：{}，response：{}", requestBody, responseBody);
+            log.info("执行请求平台接口，keyword: {}，request: {}，response: {}", request.getKeyword(), requestBody, responseBody);
 
             if (!response.isSuccess()) {
-                throw new ElemApiException("请求失败，response_code：" + response.getResponseCode() +
-                        "，response_message：" + response.getResponseMessage());
+                throw new ElemApiException("请求失败，response_code: " + response.getResponseCode() +
+                        "，response_message: " + response.getResponseMessage());
             }
 
             JSONObject responseData = JSON.parseObject(responseBody);

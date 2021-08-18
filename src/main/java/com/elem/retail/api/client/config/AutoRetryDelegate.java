@@ -34,7 +34,7 @@ public abstract class AutoRetryDelegate {
                 }
 
                 this.sleep(waitTime);
-                log.warn("cmd: {} 第{}次重试", request.getCmd(), i);
+                log.warn("keyword: {}，cmd: {} 第{}次重试", request.getKeyword(), request.getCmd(), i);
             }
 
             try {
