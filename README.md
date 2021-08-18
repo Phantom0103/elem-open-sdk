@@ -8,8 +8,6 @@
 OrderGetRequest request = new OrderGetRequest();
 request.setOrderId("5033586381979339461");
 OrderGetExecutor executor = new OrderGetExecutor("your appid", "your secret", request);
-executor.setConnectTimeout(60000);
-executor.setReadTimeout(60000);
 ElemResponse response = executor.execute();
 ```
 2. 自动重试调用
@@ -17,14 +15,15 @@ ElemResponse response = executor.execute();
 OrderGetRequest request = new OrderGetRequest();
 request.setOrderId("5033586381979339461a");
 OrderGetExecutor executor = new OrderGetExecutor("your appid", "your secret", request);
-executor.setConnectTimeout(60000);
-executor.setReadTimeout(60000);
+// executor.setConnectTimeout(60000);
+// executor.setReadTimeout(60000);
 
 /**
-* 默认的重试错误码："gw.ISPInvokeError", "gw.ISPConnectError", "gw.ISPInvokeTimeout"
+* 默认的重试错误码："gw.ISPInvokeError", "gw.ISPConnectError", "gw.ISPInvokeTimeout"。
+* 重试3次，最多执行4次
 */
-AutoRetryFeature feature = new AutoRetryFeature(4, 500L, "UNKOWN");
-ElemResponse response = executor.execute(null, feature);
+AutoRetryFeature feature = new AutoRetryFeature(3, 500L, "UNKOWN");
+ElemResponse response = executor.execute(feature);
 ```
 ### 参考
 饿了么零售开放平台：https://open-retail.ele.me/#/apidoc
