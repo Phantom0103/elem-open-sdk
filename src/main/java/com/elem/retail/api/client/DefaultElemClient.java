@@ -80,11 +80,19 @@ public class DefaultElemClient implements ElemClient {
                 elemResponse.setCode(errno);
                 elemResponse.setMessage(message);
 
-                JSONObject data = body.getJSONObject("data");
-                if (OK_CODE.equals(errno) && data != null) {
-                    T v = JSON.toJavaObject(data, clazz);
-                    elemResponse.setData(v);
+                if (ElemResponseData.class.isAssignableFrom(clazz)) {
+                    JSONObject data = body.getJSONObject("data");
+                    if (OK_CODE.equals(errno) && data != null) {
+                        T v = JSON.toJavaObject(data, clazz);
+                        elemResponse.setData(v);
+                    }
+                } else {
+                    if (OK_CODE.equals(errno)) {
+                        T v = body.getObject("data", clazz);
+                        elemResponse.setData(v);
+                    }
                 }
+
             }
 
             return elemResponse;
