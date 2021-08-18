@@ -9,6 +9,13 @@ OrderGetRequest request = new OrderGetRequest();
 request.setOrderId("5033586381979339461");
 OrderGetExecutor executor = new OrderGetExecutor("your appid", "your secret", request);
 ElemResponse response = executor.execute();
+
+if ("0".equals(response.getCode())) {
+    OrderGetResult order = (OrderGetResult) response.getData();
+    System.out.println(JSON.toJSONString(order));
+} else {
+    System.out.println(response.getMessage());
+}
 ```
 2. 自动重试调用
 ```java
@@ -24,6 +31,13 @@ OrderGetExecutor executor = new OrderGetExecutor("your appid", "your secret", re
 */
 AutoRetryFeature feature = new AutoRetryFeature(3, 500L, "UNKOWN");
 ElemResponse response = executor.execute(feature);
+
+if ("0".equals(response.getCode())) {
+    OrderGetResult order = (OrderGetResult) response.getData();
+    System.out.println(JSON.toJSONString(order));
+} else {
+    System.out.println(response.getMessage());
+}
 ```
 ### 参考
 饿了么零售开放平台：https://open-retail.ele.me/#/apidoc
