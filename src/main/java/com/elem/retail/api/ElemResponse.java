@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-public class ElemResponse<T extends ElemResponseData> implements Serializable {
+public class ElemResponse<T extends Serializable> implements Serializable {
 
     private static final long serialVersionUID = 6963059547678465383L;
 

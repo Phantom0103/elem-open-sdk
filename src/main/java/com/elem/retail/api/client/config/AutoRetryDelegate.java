@@ -1,8 +1,12 @@
 package com.elem.retail.api.client.config;
 
-import com.elem.retail.api.*;
+import com.elem.retail.api.ElemApiException;
+import com.elem.retail.api.ElemConstants;
+import com.elem.retail.api.ElemRequest;
+import com.elem.retail.api.ElemResponse;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -21,7 +25,7 @@ public abstract class AutoRetryDelegate {
 
     private final Set<String> retryErrorCodes = new HashSet<>(Arrays.asList("gw.ISPInvokeError", "gw.ISPConnectError", "gw.ISPInvokeTimeout"));
 
-    public <T extends ElemResponseData> ElemResponse<T> execute(ElemRequest request, String token, Class<T> clazz) throws ElemApiException {
+    public <T extends Serializable> ElemResponse<T> execute(ElemRequest request, String token, Class<T> clazz) throws ElemApiException {
         ElemResponse<T> response = null;
         ElemApiException exception = null;
         /**
@@ -82,5 +86,5 @@ public abstract class AutoRetryDelegate {
         this.retryErrorCodes.addAll(retryErrorCodes);
     }
 
-    public abstract <T extends ElemResponseData> ElemResponse<T> clientExecute(ElemRequest request, String token, Class<T> clazz) throws ElemApiException;
+    public abstract <T extends Serializable> ElemResponse<T> clientExecute(ElemRequest request, String token, Class<T> clazz) throws ElemApiException;
 }

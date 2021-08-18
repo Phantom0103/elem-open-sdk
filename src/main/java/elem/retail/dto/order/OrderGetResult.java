@@ -1,11 +1,11 @@
 package elem.retail.dto.order;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.elem.retail.api.ElemResponseData;
 import com.elem.retail.api.util.Long2DateDeserializer;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class OrderGetResult extends ElemResponseData {
+public class OrderGetResult implements Serializable {
 
     private static final long serialVersionUID = -7463196883326593949L;
 

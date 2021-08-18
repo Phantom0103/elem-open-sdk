@@ -3,11 +3,12 @@ package com.elem.retail.api.executor;
 import com.elem.retail.api.ElemApiException;
 import com.elem.retail.api.ElemRequest;
 import com.elem.retail.api.ElemResponse;
-import com.elem.retail.api.ElemResponseData;
 import com.elem.retail.api.client.AutoRetryElemClient;
 import com.elem.retail.api.client.DefaultElemClient;
 import com.elem.retail.api.client.config.AutoRetryFeature;
 import org.apache.commons.lang3.StringUtils;
+
+import java.io.Serializable;
 
 /**
  * @Author zhouw
@@ -46,7 +47,7 @@ public abstract class ElemApiExecutor {
      *
      * @return
      */
-    abstract Class<? extends ElemResponseData> getResponseDataClass();
+    abstract Class<? extends Serializable> getResponseDataClass();
 
     /**
      * 执行公开的API请求
@@ -102,14 +103,14 @@ public abstract class ElemApiExecutor {
 
     private ElemResponse execute0(String token) {
         ElemRequest request = getRequest();
-        Class<? extends ElemResponseData> clazz = getResponseDataClass();
+        Class<? extends Serializable> clazz = getResponseDataClass();
         DefaultElemClient elemClient = new DefaultElemClient(appid, secret, connectTimeout, readTimeout);
         return elemClient.execute(request, token, clazz);
     }
 
     private ElemResponse execute0(String token, AutoRetryFeature feature) {
         ElemRequest request = getRequest();
-        Class<? extends ElemResponseData> clazz = getResponseDataClass();
+        Class<? extends Serializable> clazz = getResponseDataClass();
         AutoRetryElemClient elemClient = new AutoRetryElemClient(appid, secret, connectTimeout, readTimeout);
         elemClient.setAutoRetryFeature(feature);
         return elemClient.execute(request, token, clazz);

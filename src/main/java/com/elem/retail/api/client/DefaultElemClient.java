@@ -7,6 +7,7 @@ import com.elem.retail.api.util.HttpUtils;
 import com.elem.retail.api.util.Md5Utils;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.UUID;
@@ -47,17 +48,17 @@ public class DefaultElemClient implements ElemClient {
     }
 
     @Override
-    public <T extends ElemResponseData> ElemResponse<T> execute(ElemRequest request, Class<T> clazz) throws ElemApiException {
+    public <T extends Serializable> ElemResponse<T> execute(ElemRequest request, Class<T> clazz) throws ElemApiException {
         return execute0(request, null, clazz);
     }
 
     @Override
-    public <T extends ElemResponseData> ElemResponse<T> execute(ElemRequest request, String token, Class<T> clazz) throws ElemApiException {
+    public <T extends Serializable> ElemResponse<T> execute(ElemRequest request, String token, Class<T> clazz) throws ElemApiException {
         return execute0(request, token, clazz);
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends ElemResponseData> ElemResponse<T> execute0(ElemRequest request, String token, Class<T> clazz) throws ElemApiException {
+    private <T extends Serializable> ElemResponse<T> execute0(ElemRequest request, String token, Class<T> clazz) throws ElemApiException {
         try {
             String requestBody = getRequestBody(request, token);
             HttpResponseData response = HttpUtils.doPost(API_URL, requestBody, connectTimeout, readTimeout);

@@ -1,5 +1,7 @@
 package com.elem.retail.api;
 
+import java.io.Serializable;
+
 /**
  * @Author zhouw
  * @Description
@@ -14,7 +16,7 @@ public interface ElemClient {
      * @return
      * @throws ElemApiException
      */
-    <T extends ElemResponseData> ElemResponse<T> execute(ElemRequest request, Class<T> clazz) throws ElemApiException;
+    <T extends Serializable> ElemResponse<T> execute(ElemRequest request, Class<T> clazz) throws ElemApiException;
 
     /**
      * 执行需要授权的API请求
@@ -24,5 +26,5 @@ public interface ElemClient {
      * @return
      * @throws ElemApiException
      */
-    <T extends ElemResponseData> ElemResponse<T> execute(ElemRequest request, String token, Class<T> clazz) throws ElemApiException;
+    <T extends Serializable> ElemResponse<T> execute(ElemRequest request, String token, Class<T> clazz) throws ElemApiException;
 }

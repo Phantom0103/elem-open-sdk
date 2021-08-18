@@ -1,8 +1,7 @@
 package com.elem.retail.api.executor;
 
 import com.elem.retail.api.ElemRequest;
-import elem.retail.dto.order.OrderGetRequest;
-import elem.retail.dto.order.OrderGetResult;
+import elem.retail.dto.order.OrderCancelRequest;
 
 import java.io.Serializable;
 
@@ -11,18 +10,18 @@ import java.io.Serializable;
  * @Description
  * @Date 2021-08-04
  */
-public class OrderGetExecutor extends ElemApiExecutor {
+public class OrderCancelExecutor extends ElemApiExecutor {
 
-    private OrderGetRequest request;
+    private OrderCancelRequest request;
 
-    public OrderGetExecutor(String appid, String secret, OrderGetRequest request) {
+    public OrderCancelExecutor(String appid, String secret, OrderCancelRequest request) {
         super(appid, secret);
         this.request = request;
     }
 
     @Override
     Class<? extends Serializable> getResponseDataClass() {
-        return OrderGetResult.class;
+        return Boolean.class;
     }
 
     @Override

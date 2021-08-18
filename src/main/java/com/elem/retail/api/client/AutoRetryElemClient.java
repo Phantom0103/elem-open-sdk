@@ -3,9 +3,10 @@ package com.elem.retail.api.client;
 import com.elem.retail.api.ElemApiException;
 import com.elem.retail.api.ElemRequest;
 import com.elem.retail.api.ElemResponse;
-import com.elem.retail.api.ElemResponseData;
 import com.elem.retail.api.client.config.AutoRetryDelegate;
 import com.elem.retail.api.client.config.AutoRetryFeature;
+
+import java.io.Serializable;
 
 /**
  * @Author zhouw
@@ -16,7 +17,7 @@ public class AutoRetryElemClient extends DefaultElemClient {
 
     private AutoRetryDelegate delegate = new AutoRetryDelegate() {
         @Override
-        public <T extends ElemResponseData> ElemResponse<T> clientExecute(ElemRequest request, String token, Class<T> clazz) throws ElemApiException {
+        public <T extends Serializable> ElemResponse<T> clientExecute(ElemRequest request, String token, Class<T> clazz) throws ElemApiException {
             return AutoRetryElemClient.super.execute(request, token, clazz);
         }
     };
@@ -44,12 +45,12 @@ public class AutoRetryElemClient extends DefaultElemClient {
     }
 
     @Override
-    public <T extends ElemResponseData> ElemResponse<T> execute(ElemRequest request, Class<T> clazz) throws ElemApiException {
+    public <T extends Serializable> ElemResponse<T> execute(ElemRequest request, Class<T> clazz) throws ElemApiException {
         return this.execute(request, null, clazz);
     }
 
     @Override
-    public <T extends ElemResponseData> ElemResponse<T> execute(ElemRequest request, String token, Class<T> clazz) throws ElemApiException {
+    public <T extends Serializable> ElemResponse<T> execute(ElemRequest request, String token, Class<T> clazz) throws ElemApiException {
         return this.delegate.execute(request, token, clazz);
     }
 }
