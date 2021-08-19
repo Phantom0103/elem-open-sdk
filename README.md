@@ -39,5 +39,30 @@ if (ElemConstants.OK_CODE.equals(response.getCode())) {
     System.out.println(response.getMessage());
 }
 ```
+3. 带勾子的调用
+```java
+OrderGetRequest request = new OrderGetRequest();
+request.setOrderId("5033586381979339461");
+OrderGetExecutor executor = new OrderGetExecutor("your appid", "your secret", request);
+executor.setHook(new ElemApiHook() {
+    @Override
+    public void doBeforeRequest(String keyword, ElemRequest request) {
+        System.out.println("开始执行: " + keyword);
+    }
+
+    @Override
+    public void doAfterResponse(String keyword, HttpResponseData responseData) {
+        System.out.println("keyword: " + keyword + ", " + responseData.getBody());
+    }
+});
+ElemResponse response = executor.execute();
+
+if (ElemConstants.OK_CODE.equals(response.getCode())) {
+    OrderGetResult order = (OrderGetResult) response.getData();
+    System.out.println(JSON.toJSONString(order));
+} else {
+    System.out.println(response.getMessage());
+}
+```
 ### 参考
 饿了么零售开放平台：https://open-retail.ele.me/#/apidoc
