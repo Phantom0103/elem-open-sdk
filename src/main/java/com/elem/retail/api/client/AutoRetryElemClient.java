@@ -1,6 +1,7 @@
 package com.elem.retail.api.client;
 
 import com.elem.retail.api.ElemApiException;
+import com.elem.retail.api.ElemApiHook;
 import com.elem.retail.api.ElemRequest;
 import com.elem.retail.api.ElemResponse;
 import com.elem.retail.api.client.config.AutoRetryDelegate;
@@ -22,8 +23,8 @@ public class AutoRetryElemClient extends DefaultElemClient {
         }
     };
 
-    public AutoRetryElemClient(String appid, String secret, int connectTimeout, int readTimeout) {
-        super(appid, secret, connectTimeout, readTimeout);
+    public AutoRetryElemClient(String appid, String secret, int connectTimeout, int readTimeout, ElemApiHook hook) {
+        super(appid, secret, connectTimeout, readTimeout, hook);
     }
 
     public void setAutoRetryFeature(AutoRetryFeature feature) {

@@ -28,6 +28,8 @@ public class DefaultElemClient implements ElemClient {
     private int connectTimeout;
     private int readTimeout;
 
+    private ElemApiHook hook;
+
     /**
      * 签名模板
      */
@@ -40,11 +42,12 @@ public class DefaultElemClient implements ElemClient {
     private static final String REQUEST_TEMPLATE = "body=%s&cmd=%s&encrypt=%s&secret=%s&source=%s&sign=%s&ticket=%s&timestamp=%s&version=%s";
     private static final String REQUEST_TEMPLATE_TOKEN = "access_token=%s&" + REQUEST_TEMPLATE;
 
-    public DefaultElemClient(String appid, String secret, int connectTimeout, int readTimeout) {
+    public DefaultElemClient(String appid, String secret, int connectTimeout, int readTimeout, ElemApiHook hook) {
         this.appid = appid;
         this.secret = secret;
         this.connectTimeout = connectTimeout;
         this.readTimeout = readTimeout;
+        this.hook = hook;
     }
 
     @Override
@@ -60,8 +63,11 @@ public class DefaultElemClient implements ElemClient {
     @SuppressWarnings("unchecked")
     private <T extends Serializable> ElemResponse<T> execute0(ElemRequest request, String token, Class<T> clazz) throws ElemApiException {
         try {
+            doBeforeHook(request);
             String requestBody = getRequestBody(request, token);
             HttpResponseData response = HttpUtils.doPost(API_URL, requestBody, connectTimeout, readTimeout);
+            doAfterHook(request, response);
+
             String responseBody = response.getBody();
 
             log.info("执行请求平台接口，keyword: {}，request: {}，response: {}", request.getKeyword(), requestBody, responseBody);
@@ -138,6 +144,26 @@ public class DefaultElemClient implements ElemClient {
 
             return String.format(REQUEST_TEMPLATE_TOKEN, token, URLEncoder.encode(body, DEFAULT_CHARSET_NAME), request.getCmd(),
                     request.getEncrypt(), secret, appid, sign, ticket, timestamp, request.getVersion());
+        }
+    }
+
+    private void doBeforeHook(ElemRequest request) {
+        if (hook != null) {
+            try {
+                hook.doBeforeRequest(request.getKeyword(), request);
+            } catch (Exception e) {
+                log.error("请求API之前执行hook异常", e);
+            }
+        }
+    }
+
+    private void doAfterHook(ElemRequest request, HttpResponseData response) {
+        if (hook != null) {
+            try {
+                hook.doAfterResponse(request.getKeyword(), response);
+            } catch (Exception e) {
+                log.error("请求API之后执行hook异常", e);
+            }
         }
     }
 }

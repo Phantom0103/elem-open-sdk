@@ -1,6 +1,7 @@
 package com.elem.retail.api.executor;
 
 import com.elem.retail.api.ElemApiException;
+import com.elem.retail.api.ElemApiHook;
 import com.elem.retail.api.ElemRequest;
 import com.elem.retail.api.ElemResponse;
 import com.elem.retail.api.client.AutoRetryElemClient;
@@ -23,6 +24,8 @@ public abstract class ElemApiExecutor {
     private int connectTimeout = 60000;
     private int readTimeout = 60000;
 
+    private ElemApiHook hook;
+
     ElemApiExecutor(String appid, String secret) {
         if (StringUtils.isBlank(appid) || StringUtils.isBlank(secret)) {
             throw new NullPointerException("appid or secret is null");
@@ -40,6 +43,10 @@ public abstract class ElemApiExecutor {
 
     public void setReadTimeout(int readTimeout) {
         this.readTimeout = readTimeout;
+    }
+
+    public void setHook(ElemApiHook hook) {
+        this.hook = hook;
     }
 
     /**
@@ -104,14 +111,14 @@ public abstract class ElemApiExecutor {
     private ElemResponse execute0(String token) {
         ElemRequest request = getRequest();
         Class<? extends Serializable> clazz = getResponseDataClass();
-        DefaultElemClient elemClient = new DefaultElemClient(appid, secret, connectTimeout, readTimeout);
+        DefaultElemClient elemClient = new DefaultElemClient(appid, secret, connectTimeout, readTimeout, hook);
         return elemClient.execute(request, token, clazz);
     }
 
     private ElemResponse execute0(String token, AutoRetryFeature feature) {
         ElemRequest request = getRequest();
         Class<? extends Serializable> clazz = getResponseDataClass();
-        AutoRetryElemClient elemClient = new AutoRetryElemClient(appid, secret, connectTimeout, readTimeout);
+        AutoRetryElemClient elemClient = new AutoRetryElemClient(appid, secret, connectTimeout, readTimeout, hook);
         elemClient.setAutoRetryFeature(feature);
         return elemClient.execute(request, token, clazz);
     }
