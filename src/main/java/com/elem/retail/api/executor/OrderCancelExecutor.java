@@ -6,8 +6,11 @@ import elem.retail.dto.order.OrderCancelRequest;
 import java.io.Serializable;
 
 /**
+ * 此接口主要用于售中商家发起全单取消场景。注意：商家只能在骑手已取餐状态前发起全单取消，骑手已取餐后（包含骑手已取餐）
+ * 不再支持商家发起全单取消（或部分退款）。
+ *
  * @Author zhouw
- * @Description
+ * @Description 取消订单
  * @Date 2021-08-04
  */
 public class OrderCancelExecutor extends ElemApiExecutor {

@@ -7,7 +7,6 @@ import com.elem.retail.api.BaseElemRequest;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -77,20 +76,4 @@ public class OrderUserPartRefundNewRequest extends BaseElemRequest {
         return this.getOrderId();
     }
 
-    public static void main(String[] args) {
-        OrderUserPartRefundNewRequest request = new OrderUserPartRefundNewRequest();
-        request.setOrderId("2127061420291152123");
-        request.setAdditionReason("顾客不想要了，商品已带回");
-        request.setType(0);
-
-        List<Product> products = new ArrayList<>();
-        Product product = new Product();
-        product.setNumber(2);
-        product.setSkuId("1570530839071121");
-        products.add(product);
-
-        request.setProducts(products);
-
-        System.out.println(request.getBody());
-    }
 }
