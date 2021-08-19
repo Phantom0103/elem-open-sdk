@@ -33,7 +33,7 @@ public class OrderCancelRequest extends BaseElemRequest {
 
     @Override
     public String getKeyword() {
-        return getOrderId();
+        return this.getOrderId();
     }
 
     public String getOrderId() {

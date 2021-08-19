@@ -28,7 +28,7 @@ public class OrderGetRequest extends BaseElemRequest {
 
     @Override
     public String getKeyword() {
-        return getOrderId();
+        return this.getOrderId();
     }
 
     @Override
