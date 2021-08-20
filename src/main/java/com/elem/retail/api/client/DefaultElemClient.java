@@ -63,10 +63,11 @@ public class DefaultElemClient implements ElemClient {
     @SuppressWarnings("unchecked")
     private <T extends Serializable> ElemResponse<T> execute0(ElemRequest request, String token, Class<T> clazz) throws ElemApiException {
         try {
-            doBeforeHook(request);
-            String requestBody = getRequestBody(request, token);
+            String ticket = UUID.randomUUID().toString().toUpperCase();
+            doBeforeHook(ticket, request);
+            String requestBody = getRequestBody(request, token, ticket);
             HttpResponseData response = HttpUtils.doPost(API_URL, requestBody, connectTimeout, readTimeout);
-            doAfterHook(request, response);
+            doAfterHook(ticket, request, response);
 
             String responseBody = response.getBody();
 
@@ -125,8 +126,7 @@ public class DefaultElemClient implements ElemClient {
         return elemResponse;
     }
 
-    private String getRequestBody(ElemRequest request, String token) throws UnsupportedEncodingException {
-        String ticket = UUID.randomUUID().toString().toUpperCase();
+    private String getRequestBody(ElemRequest request, String token, String ticket) throws UnsupportedEncodingException {
         int timestamp = (int) (System.currentTimeMillis() / 1000);
         String body = request.getBody();
 
@@ -147,20 +147,20 @@ public class DefaultElemClient implements ElemClient {
         }
     }
 
-    private void doBeforeHook(ElemRequest request) {
+    private void doBeforeHook(String ticket, ElemRequest request) {
         if (hook != null) {
             try {
-                hook.doBeforeRequest(request.getKeyword(), request);
+                hook.doBeforeRequest(ticket, request);
             } catch (Exception e) {
                 log.error("请求API之前执行hook异常", e);
             }
         }
     }
 
-    private void doAfterHook(ElemRequest request, HttpResponseData response) {
+    private void doAfterHook(String ticket, ElemRequest request, HttpResponseData response) {
         if (hook != null) {
             try {
-                hook.doAfterResponse(request.getKeyword(), response);
+                hook.doAfterResponse(ticket, request, response);
             } catch (Exception e) {
                 log.error("请求API之后执行hook异常", e);
             }

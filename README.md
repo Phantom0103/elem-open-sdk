@@ -46,13 +46,13 @@ request.setOrderId("5033586381979339461");
 OrderGetExecutor executor = new OrderGetExecutor("your appid", "your secret", request);
 executor.setHook(new ElemApiHook() {
     @Override
-    public void doBeforeRequest(String keyword, ElemRequest request) {
-        System.out.println("开始执行: " + keyword);
+    public void doBeforeRequest(String ticket, ElemRequest request) {
+        System.out.println("开始执行: " + ticket);
     }
 
     @Override
-    public void doAfterResponse(String keyword, HttpResponseData responseData) {
-        System.out.println("keyword: " + keyword + ", " + responseData.getBody());
+    public void doAfterResponse(String ticket, ElemRequest request, HttpResponseData responseData) {
+        System.out.println("keyword: " + ticket + ", " + responseData.getBody());
     }
 });
 ElemResponse response = executor.execute();

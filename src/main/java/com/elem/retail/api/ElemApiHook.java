@@ -10,16 +10,17 @@ public interface ElemApiHook {
     /**
      * 请求API之前可执行的勾子方法
      *
-     * @param keyword
+     * @param ticket
      * @param request
      */
-    void doBeforeRequest(String keyword, ElemRequest request);
+    void doBeforeRequest(String ticket, ElemRequest request);
 
     /**
      * 请求API后可执行的勾子方法
      *
-     * @param keyword
+     * @param ticket
+     * @param request
      * @param responseData
      */
-    void doAfterResponse(String keyword, HttpResponseData responseData);
+    void doAfterResponse(String ticket, ElemRequest request, HttpResponseData responseData);
 }
