@@ -4,12 +4,18 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.elem.retail.api.BaseElemRequest;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
 
 /**
  * @Author zhouw
  * @Description
  * @Date 2021-08-19
  */
+@Getter
+@Setter
 public class SkuCreateRequest extends BaseElemRequest {
 
     private static final long serialVersionUID = -1214872696703101582L;
@@ -75,6 +81,132 @@ public class SkuCreateRequest extends BaseElemRequest {
     @JSONField(name = "single_package_fee")
     private Long singlePackageFee;
 
+    @JSONField(name = "category_list")
+    private List<Category> categories;
+
+    private List<Photo> photos;
+
+    @JSONField(name = "process_detail")
+    private List<ProcessDetail> processDetails;
+
+    @JSONField(name = "sku_property")
+    private List<SkuProperty> skuProperties;
+
+    @JSONField(name = "cat_property")
+    private List<CatProperty> catProperties;
+
+    @JSONField(name = "sku_spec")
+    private List<SkuSpec> skuSpecs;
+
+    @JSONField(name = "mc_ext")
+    private McExt mcExt;
+
+    @Getter
+    @Setter
+    public static class Category {
+        @JSONField(name = "category_id")
+        private Long categoryId;
+        @JSONField(name = "category_name")
+        private String categoryName;
+    }
+
+    @Getter
+    @Setter
+    public static class Photo {
+        @JSONField(name = "is_master")
+        private Integer isMaster;
+        private String url;
+    }
+
+    @Getter
+    @Setter
+    public static class ProcessDetail {
+        private Integer time;
+        private String type;
+    }
+
+    @Getter
+    @Setter
+    public static class SkuProperty {
+        private String name;
+
+        @JSONField(name = "detail")
+        private List<Detail> details;
+
+        @Getter
+        @Setter
+        public static class Detail {
+            private boolean ice;
+            private String k;
+        }
+    }
+
+    @Getter
+    @Setter
+    public static class CatProperty {
+        private Long propId;
+        private String propText;
+        private Long valueId;
+        private String valueText;
+    }
+
+    @Getter
+    @Setter
+    public static class SkuSpec {
+        private String upc;
+        @JSONField(name = "sale_price")
+        private int salePrice;
+        @JSONField(name = "left_num")
+        private double leftNum;
+        private int weight;
+        @JSONField(name = "product_spec_id")
+        private Long productSpecId;
+        @JSONField(name = "sku_spec_custom_id")
+        private String skuSpecCustomId;
+        @JSONField(name = "mc_sc_item_id")
+        private String mcScItemId;
+        @JSONField(name = "mc_sell_unit")
+        private String mcSellUnit;
+        @JSONField(name = "mc_charge_unit")
+        private String mcChargeUnit;
+
+        @JSONField(name = "spec_property")
+        private List<SpecProperty> specProperties;
+
+        @Getter
+        @Setter
+        public static class SpecProperty {
+            @JSONField(name = "prop_id")
+            private Long propId;
+            @JSONField(name = "prop_text")
+            private String propText;
+            @JSONField(name = "value_id")
+            private Long valueId;
+            @JSONField(name = "value_text")
+            private String valueText;
+        }
+    }
+
+    @Getter
+    @Setter
+    public static class McExt {
+        @JSONField(name = "mc_sell_unit")
+        private String mcSellUnit;
+        @JSONField(name = "mc_charge_unit")
+        private String mcChargeUnit;
+        @JSONField(name = "mc_sc_item_id")
+        private String mcScItemId;
+        private String operatingShop;
+        private String merchantCode;
+        @JSONField(name = "scm_sale_type")
+        private String scmSaleType;
+        private List<String> tags;
+        private String mcSpecialIsWeight;
+        private String mcSpecialWdkiu;
+        private String mcSpecialWdkbu;
+        private String mcSpecialRatio;
+    }
+
     @Override
     public String getCmd() {
         return "sku.create";
@@ -87,6 +219,6 @@ public class SkuCreateRequest extends BaseElemRequest {
 
     @Override
     public String getKeyword() {
-        return null;
+        return this.getUpc();
     }
 }
