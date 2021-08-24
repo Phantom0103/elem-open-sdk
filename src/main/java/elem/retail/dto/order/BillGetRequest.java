@@ -21,7 +21,7 @@ public class BillGetRequest extends BaseElemRequest {
     private String baiduShopId;
     @JSONField(name = "shop_id")
     private String shopId;
-    private long date;
+    private Long date;
     private int page = 1;
 
     @Override
