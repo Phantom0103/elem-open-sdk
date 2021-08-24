@@ -13,11 +13,11 @@ import java.util.ArrayList;
  * @Description 获取订单相关处方单
  * @Date 2021-08-24
  */
-public class DrugPrescriptionFiles extends ElemApiExecutor {
+public class DrugPrescriptionFilesExecutor extends ElemApiExecutor {
 
     private DrugPrescriptionFilesRequest request;
 
-    public DrugPrescriptionFiles(String appid, String secret, DrugPrescriptionFilesRequest request) {
+    public DrugPrescriptionFilesExecutor(String appid, String secret, DrugPrescriptionFilesRequest request) {
         super(appid, secret);
         this.request = request;
     }

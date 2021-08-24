@@ -16,6 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 @Setter
 public class UgcOrderCommentGetRequest extends BaseElemRequest {
 
+    private static final long serialVersionUID = -1278311967484118276L;
+
     @JSONField(name = "baidu_shop_id")
     private String baiduShopId;
     @JSONField(name = "shop_id")
