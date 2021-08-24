@@ -52,7 +52,7 @@ executor.setHook(new ElemApiHook() {
 
     @Override
     public void doAfterResponse(String ticket, ElemRequest request, HttpResponseData responseData) {
-        System.out.println("keyword: " + ticket + ", " + responseData.getBody());
+        System.out.println("ticket: " + ticket + ", " + responseData.getBody());
     }
 });
 ElemResponse response = executor.execute();
