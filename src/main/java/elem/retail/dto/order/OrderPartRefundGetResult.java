@@ -49,7 +49,7 @@ public class OrderPartRefundGetResult extends ElemResponseData {
     private List<OrderDetail> orderDetails;
 
     @JSONField(name = "history_refund_detail")
-    private List<HistoryRefundDetail> historyRefundDetails;
+    private List<List<HistoryRefundDetail>> historyRefundDetails;
 
     @Getter
     @Setter
@@ -175,8 +175,6 @@ public class OrderPartRefundGetResult extends ElemResponseData {
         private String name;
         @JSONField(name = "shop_ele_refund")
         private int shopEleRefund;
-        @JSONField(name = "shop_refund")
-        private int shopRefund;
         private String status;
         private String desc;
         @JSONField(name = "product_features")
