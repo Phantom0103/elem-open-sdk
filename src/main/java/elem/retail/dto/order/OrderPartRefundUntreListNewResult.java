@@ -2,6 +2,7 @@ package elem.retail.dto.order;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.elem.retail.api.ElemResponseData;
+import com.elem.retail.api.util.Long2DateDeserializer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,7 +32,7 @@ public class OrderPartRefundUntreListNewResult extends ElemResponseData {
         private String orderId;
         @JSONField(name = "refund_id")
         private String refundId;
-        @JSONField(name = "apply_time")
+        @JSONField(name = "apply_time", deserializeUsing = Long2DateDeserializer.class)
         private Date applyTime;
         @JSONField(name = "cancel_reason")
         private String cancelReason;

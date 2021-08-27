@@ -19,7 +19,7 @@ import java.util.List;
 public class UgcOrderCommentGetResult extends ElemResponseData {
 
     private static final long serialVersionUID = 8933448601575358063L;
-    
+
     private int total;
     private int page;
     @JSONField(name = "page_count")
@@ -66,7 +66,7 @@ public class UgcOrderCommentGetResult extends ElemResponseData {
 
             @JSONField(name = "reply_content")
             private String replyContent;
-            @JSONField(name = "reply_at")
+            @JSONField(name = "reply_at", deserializeUsing = Long2DateDeserializer.class)
             private Date replyAt;
         }
 
