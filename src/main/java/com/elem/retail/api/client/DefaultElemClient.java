@@ -10,6 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 import static com.elem.retail.api.ElemConstants.*;
@@ -88,10 +91,16 @@ public class DefaultElemClient implements ElemClient {
                 elemResponse.setMessage(message);
 
                 if (ElemResponseData.class.isAssignableFrom(clazz)) {
-                    JSONObject data = body.getJSONObject("data");
+                    Object data = body.get("data");
                     if (OK_CODE.equals(errno) && data != null) {
-                        T v = JSON.toJavaObject(data, clazz);
-                        elemResponse.setData(v);
+                        if (data instanceof Collection) {
+                            body.getString("data");
+                            List<T> v = JSON.parseArray(data.toString(), clazz);
+                            elemResponse.setData((ArrayList) v);
+                        } else {
+                            T v = JSON.toJavaObject((JSONObject) data, clazz);
+                            elemResponse.setData(v);
+                        }
                     }
                 } else {
                     if (OK_CODE.equals(errno)) {
