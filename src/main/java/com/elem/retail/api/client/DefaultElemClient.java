@@ -1,6 +1,7 @@
 package com.elem.retail.api.client;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.elem.retail.api.*;
 import com.elem.retail.api.util.HttpUtils;
@@ -94,8 +95,8 @@ public class DefaultElemClient implements ElemClient {
                     Object data = body.get("data");
                     if (OK_CODE.equals(errno) && data != null) {
                         if (data instanceof Collection) {
-                            body.getString("data");
-                            List<T> v = JSON.parseArray(data.toString(), clazz);
+                            JSONArray array = body.getJSONArray("data");
+                            List<T> v = array.toJavaList(clazz);
                             elemResponse.setData((ArrayList) v);
                         } else {
                             T v = JSON.toJavaObject((JSONObject) data, clazz);
