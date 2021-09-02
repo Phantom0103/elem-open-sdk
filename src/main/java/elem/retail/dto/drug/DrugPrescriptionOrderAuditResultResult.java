@@ -19,6 +19,8 @@ public class DrugPrescriptionOrderAuditResultResult extends ElemResponseData {
     private String message;
     private boolean success;
 
+    private Data data;
+
     @Getter
     @Setter
     public static class Data {
