@@ -2,6 +2,19 @@
 ### 简介
 饿了么开放平台的SDK都是每个接口单独一个，而且不支持自动重试，也没有超时设置。这个项目主要是想整合所有的API到一个SDK中，实现异常自动重试等功能，简化开发者对接成本。
 ### 使用说明
+导入依赖包：  
+maven
+```maven
+<dependency>
+  <groupId>io.github.phantom0103</groupId>
+  <artifactId>elem-open-sdk</artifactId>
+  <version>2.0.0</version>
+</dependency>
+```
+gradle
+```gradle
+implementation 'io.github.phantom0103:elem-open-sdk:2.0.0'
+```
 下面以查看订单详情（order.get）接口调用为例，分别发起普通调用和自动重试调用：
 1. 普通调用
 ```java
