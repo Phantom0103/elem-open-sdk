@@ -6,8 +6,6 @@ import com.elem.retail.api.BaseElemRequest;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 /**
  * @Author zhouw
  * @Description
@@ -15,18 +13,18 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class ShopIdBatchUpdateRequest extends BaseElemRequest {
+public class ShopCloseRequest extends BaseElemRequest {
 
-    private static final long serialVersionUID = 6350011879130456938L;
+    private static final long serialVersionUID = 7581315204778039237L;
 
-    @JSONField(name = "baidu_shop_ids")
-    private List<String> baiduShopIds;
-    @JSONField(name = "shop_ids")
-    private List<String> shopIds;
+    @JSONField(name = "baidu_shop_id")
+    private String baiduShopId;
+    @JSONField(name = "shop_id")
+    private String shopId;
 
     @Override
     public String getCmd() {
-        return "shop.id.batchupdate";
+        return "shop.close";
     }
 
     @Override
@@ -36,6 +34,6 @@ public class ShopIdBatchUpdateRequest extends BaseElemRequest {
 
     @Override
     public String getKeyword() {
-        return null;
+        return baiduShopId;
     }
 }
