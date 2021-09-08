@@ -95,8 +95,8 @@ public class ShopCreateRequest extends BaseElemRequest {
         @Getter
         @Setter
         public static class Region {
-            private Double longitude;
-            private Double latitude;
+            private String longitude;
+            private String latitude;
         }
     }
 
