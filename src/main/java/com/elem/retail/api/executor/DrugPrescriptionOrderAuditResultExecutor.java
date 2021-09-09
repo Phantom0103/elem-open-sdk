@@ -15,7 +15,7 @@ import java.io.Serializable;
  */
 public class DrugPrescriptionOrderAuditResultExecutor extends ElemApiExecutor {
 
-    DrugPrescriptionOrderAuditResultRequest request;
+    private DrugPrescriptionOrderAuditResultRequest request;
 
     public DrugPrescriptionOrderAuditResultExecutor(String appid, String secret, DrugPrescriptionOrderAuditResultRequest request) {
         super(appid, secret);

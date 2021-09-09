@@ -15,7 +15,7 @@ import java.io.Serializable;
  */
 public class PrescriptionDrugSearchExecutor extends ElemApiExecutor {
 
-    PrescriptionDrugSearchRequest request;
+    private PrescriptionDrugSearchRequest request;
 
     public PrescriptionDrugSearchExecutor(String appid, String secret, PrescriptionDrugSearchRequest request) {
         super(appid, secret);
