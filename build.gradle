@@ -67,7 +67,7 @@ publishing {
 
                 developers {
                     developer {
-                        name = ''
+                        name = 'zhouw'
                         email = ''
                     }
                 }

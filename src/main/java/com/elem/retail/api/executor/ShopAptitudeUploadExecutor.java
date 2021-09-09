@@ -1,22 +1,22 @@
 package com.elem.retail.api.executor;
 
 import com.elem.retail.api.ElemRequest;
-import elem.retail.dto.shop.ShopDeliveryInfoSyncRequest;
+import elem.retail.dto.shop.ShopAptitudeUploadRequest;
 
 import java.io.Serializable;
 
 /**
- * 同步自配送物流信息。
+ * 上传资质。
  *
  * @Author zhouw
- * @Description 同步自配送物流信息
- * @Date 2021-09-08
+ * @Description 上传资质
+ * @Date 2021-09-09
  */
-public class ShopDeliveryInfoSyncExecutor extends ElemApiExecutor {
+public class ShopAptitudeUploadExecutor extends ElemApiExecutor {
 
-    private ShopDeliveryInfoSyncRequest request;
+    private ShopAptitudeUploadRequest request;
 
-    public ShopDeliveryInfoSyncExecutor(String appid, String secret, ShopDeliveryInfoSyncRequest request) {
+    public ShopAptitudeUploadExecutor(String appid, String secret, ShopAptitudeUploadRequest request) {
         super(appid, secret);
         this.request = request;
     }
