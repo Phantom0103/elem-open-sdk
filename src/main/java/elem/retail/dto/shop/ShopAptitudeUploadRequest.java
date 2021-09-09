@@ -46,7 +46,7 @@ public class ShopAptitudeUploadRequest extends BaseElemRequest {
         @JSONField(name = "license_address")
         private String licenseAddress;
         @JSONField(name = "license_validdate")
-        private String licenseValiddate;
+        private String licenseValidate;
         @JSONField(name = "long_term_valid")
         private String longTermValid;
         @JSONField(name = "legal_representative_name")
@@ -60,7 +60,7 @@ public class ShopAptitudeUploadRequest extends BaseElemRequest {
             @JSONField(name = "photo_url")
             private String photoUrl;
             @JSONField(name = "waterprinter_url")
-            private String waterprinterUrl;
+            private String waterPrinterUrl;
         }
     }
 
