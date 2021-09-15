@@ -105,8 +105,16 @@ public class DefaultElemClient implements ElemClient {
                     }
                 } else {
                     if (OK_CODE.equals(errno)) {
-                        T v = body.getObject("data", clazz);
-                        elemResponse.setData(v);
+                        try {
+                            T v = body.getObject("data", clazz);
+                            elemResponse.setData(v);
+                        } catch (Exception e) {
+                            if (clazz == Boolean.class || clazz == Boolean.TYPE) {
+                                elemResponse.setData(false);
+                            } else {
+                                throw e;
+                            }
+                        }
                     }
                 }
 
