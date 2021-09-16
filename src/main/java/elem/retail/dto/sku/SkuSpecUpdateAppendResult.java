@@ -5,6 +5,8 @@ import com.elem.retail.api.ElemResponseData;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * @author zhouw
  * @description
@@ -21,6 +23,9 @@ public class SkuSpecUpdateAppendResult extends ElemResponseData {
     @JSONField(name = "item_id")
     private String itemId;
     private String tip;
+
+    @JSONField(name = "sku_spec_result")
+    private List<SkuSpecResult> skuSpecResults;
 
     @Getter
     @Setter
