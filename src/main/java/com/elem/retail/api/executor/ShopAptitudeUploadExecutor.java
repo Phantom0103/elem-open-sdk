@@ -28,6 +28,6 @@ public class ShopAptitudeUploadExecutor extends ElemApiExecutor {
 
     @Override
     Class<? extends Serializable> getResponseDataClass() {
-        return String.class;
+        return null;
     }
 }
