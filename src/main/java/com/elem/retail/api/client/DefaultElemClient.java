@@ -91,6 +91,10 @@ public class DefaultElemClient implements ElemClient {
                 elemResponse.setCode(errno);
                 elemResponse.setMessage(message);
 
+                if (clazz == null) {
+                    return elemResponse;
+                }
+
                 if (ElemResponseData.class.isAssignableFrom(clazz)) {
                     Object data = body.get("data");
                     if (OK_CODE.equals(errno) && data != null) {
