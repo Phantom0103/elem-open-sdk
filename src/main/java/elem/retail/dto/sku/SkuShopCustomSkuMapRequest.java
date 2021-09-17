@@ -3,12 +3,16 @@ package elem.retail.dto.sku;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.elem.retail.api.BaseElemRequest;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author zhouw
  * @description
  * @date 2021-09-13
  */
+@Getter
+@Setter
 public class SkuShopCustomSkuMapRequest extends BaseElemRequest {
 
     private static final long serialVersionUID = 1014621398516161428L;

@@ -1,14 +1,24 @@
 package elem.retail.dto.sku;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.elem.retail.api.BaseElemRequest;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
 
 /**
  * @author zhouw
  * @description
  * @date 2021-09-16
  */
+@Getter
+@Setter
 public class SkuUpdateRequest extends BaseElemRequest {
+
+    private static final long serialVersionUID = 6539110189309664302L;
 
     @JSONField(name = "shop_id")
     private String shopId;
@@ -67,18 +77,137 @@ public class SkuUpdateRequest extends BaseElemRequest {
     @JSONField(name = "single_package_fee")
     private Long singlePackageFee;
 
+    @JSONField(name = "category_list")
+    private List<Category> categories;
+
+    private List<Photo> photos;
+
+    @JSONField(name = "process_detail")
+    private List<ProcessDetail> processDetails;
+
+    @JSONField(name = "sku_property")
+    private List<SkuProperty> skuProperties;
+
+    @JSONField(name = "cat_property")
+    private List<CatProperty> catProperties;
+
+    @JSONField(name = "sku_spec")
+    private List<SkuSpec> skuSpecs;
+
+    @JSONField(name = "mc_ext")
+    private McExt mcExt;
+
+    @Getter
+    @Setter
+    public static class Category {
+        @JSONField(name = "category_id")
+        private String categoryId;
+        @JSONField(name = "category_name")
+        private String categoryName;
+    }
+
+    @Getter
+    @Setter
+    public static class Photo {
+        @JSONField(name = "is_master")
+        private Integer isMaster;
+        private String url;
+    }
+
+    @Getter
+    @Setter
+    public static class ProcessDetail {
+        private Integer time;
+        private String type;
+    }
+
+    @Getter
+    @Setter
+    public static class SkuProperty {
+        private String name;
+
+        @Getter
+        @Setter
+        public static class Detail {
+            private boolean ice;
+            private String k;
+        }
+    }
+
+    @Getter
+    @Setter
+    public static class CatProperty {
+        private String propId;
+        private String propText;
+        private String valueId;
+        private String valueText;
+    }
+
+    @Getter
+    @Setter
+    public static class SkuSpec {
+        @JSONField(name = "sku_spec_id")
+        private String skuSpecId;
+        private String upc;
+        @JSONField(name = "sale_price")
+        private Integer salePrice;
+        @JSONField(name = "left_num")
+        private Double leftNum;
+        private Integer weight;
+        @JSONField(name = "product_spec_id")
+        private String productSpecId;
+        @JSONField(name = "sku_spec_custom_id")
+        private String skuSpecCustomId;
+
+        @JSONField(name = "spec_property")
+        private List<SpecProperty> specProperties;
+
+        @Getter
+        @Setter
+        public static class SpecProperty {
+            @JSONField(name = "prop_id")
+            private String propId;
+            @JSONField(name = "prop_text")
+            private String propText;
+            @JSONField(name = "value_id")
+            private String valueId;
+            @JSONField(name = "value_text")
+            private String valueText;
+        }
+    }
+
+    @Getter
+    @Setter
+    public static class McExt {
+        @JSONField(name = "mc_sell_unit")
+        private String mcSellUnit;
+        @JSONField(name = "mc_charge_unit")
+        private String mcChargeUnit;
+        @JSONField(name = "mc_sc_item_id")
+        private String mcScItemId;
+        private String operatingShop;
+        private String merchantCode;
+        @JSONField(name = "scm_sale_type")
+        private String scmSaleType;
+        private List<String> tags;
+        private String mcSpecialIsWeight;
+        private String mcSpecialWdkiu;
+        private String mcSpecialWdkbu;
+        private String mcSpecialRatio;
+    }
+
     @Override
     public String getCmd() {
-        return null;
+        return "sku.update";
     }
 
     @Override
     public String getBody() {
-        return null;
+        return JSON.toJSONString(this, SerializerFeature.DisableCircularReferenceDetect);
     }
 
     @Override
     public String getKeyword() {
-        return null;
+        return skuId;
     }
 }
