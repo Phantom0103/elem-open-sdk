@@ -28,6 +28,8 @@ public class OrderManyTimesPartRefundRequest extends BaseElemRequest {
 
     private List<Product> products;
 
+    @Getter
+    @Setter
     public static class Product {
         @JSONField(name = "sku_id")
         private String skuId;

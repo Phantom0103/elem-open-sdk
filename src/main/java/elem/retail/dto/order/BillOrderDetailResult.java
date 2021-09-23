@@ -14,6 +14,8 @@ import java.util.List;
  * @Description
  * @Date 2021-08-27
  */
+@Getter
+@Setter
 public class BillOrderDetailResult extends ElemResponseData {
 
     private static final long serialVersionUID = 6234090598752038271L;
