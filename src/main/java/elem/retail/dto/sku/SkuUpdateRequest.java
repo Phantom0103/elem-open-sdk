@@ -28,6 +28,7 @@ public class SkuUpdateRequest extends BaseElemRequest {
     private String upcUpdate;
     private String name;
     private Integer status;
+    @JSONField(name = "shelf_number")
     private String shelfNumber;
     @JSONField(name = "brand_id")
     private String brandId;
@@ -74,6 +75,8 @@ public class SkuUpdateRequest extends BaseElemRequest {
     private Boolean singlePackageFlag;
     @JSONField(name = "single_package_number")
     private Integer singlePackageNumber;
+    @JSONField(name = "package_fee")
+    private Long packageFee;
     @JSONField(name = "single_package_fee")
     private Long singlePackageFee;
 
@@ -125,6 +128,9 @@ public class SkuUpdateRequest extends BaseElemRequest {
     @Setter
     public static class SkuProperty {
         private String name;
+
+        @JSONField(name = "detail")
+        private List<Detail> details;
 
         @Getter
         @Setter
