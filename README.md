@@ -8,12 +8,12 @@ maven
 <dependency>
   <groupId>io.github.phantom0103</groupId>
   <artifactId>elem-open-sdk</artifactId>
-  <version>2.0.0</version>
+  <version>2.2.1</version>
 </dependency>
 ```
 gradle
 ```gradle
-implementation 'io.github.phantom0103:elem-open-sdk:2.0.0'
+implementation 'io.github.phantom0103:elem-open-sdk:2.2.1'
 ```
 下面以查看订单详情（order.get）接口调用为例，分别发起普通调用和自动重试调用：
 1. 普通调用
