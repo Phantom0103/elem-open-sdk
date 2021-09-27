@@ -88,5 +88,5 @@ signing {
 
 javadoc {
     options.encoding = "UTF-8"
-    options.tags = ["Author", "Description", "description", "Date"]
+    options.tags = ["Author", "Description", "description", "Date", "date"]
 }
