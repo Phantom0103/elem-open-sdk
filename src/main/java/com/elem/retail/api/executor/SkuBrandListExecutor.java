@@ -29,6 +29,6 @@ public class SkuBrandListExecutor extends ElemApiExecutor {
 
     @Override
     Class<? extends Serializable> getResponseDataClass() {
-        return SkuBrandListResult.class
+        return SkuBrandListResult.class;
     }
 }
