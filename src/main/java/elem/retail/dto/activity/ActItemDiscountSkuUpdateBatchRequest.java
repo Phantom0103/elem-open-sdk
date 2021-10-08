@@ -54,6 +54,6 @@ public class ActItemDiscountSkuUpdateBatchRequest extends BaseElemRequest {
 
     @Override
     public String getKeyword() {
-        return null;
+        return activityId == null ? "" : activityId.toString();
     }
 }
