@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class ActivityNgiftmGetResponse extends ElemResponseData {
+public class ActivityNgiftmGetResult extends ElemResponseData {
 
     private static final long serialVersionUID = 7637878999855233323L;
 

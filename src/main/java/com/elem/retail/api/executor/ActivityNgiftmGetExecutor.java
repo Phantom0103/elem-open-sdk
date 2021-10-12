@@ -2,7 +2,7 @@ package com.elem.retail.api.executor;
 
 import com.elem.retail.api.ElemRequest;
 import elem.retail.dto.activity.ActivityNgiftmGetRequest;
-import elem.retail.dto.activity.ActivityNgiftmGetResponse;
+import elem.retail.dto.activity.ActivityNgiftmGetResult;
 
 import java.io.Serializable;
 
@@ -29,6 +29,6 @@ public class ActivityNgiftmGetExecutor extends ElemApiExecutor {
 
     @Override
     Class<? extends Serializable> getResponseDataClass() {
-        return ActivityNgiftmGetResponse.class;
+        return ActivityNgiftmGetResult.class;
     }
 }
