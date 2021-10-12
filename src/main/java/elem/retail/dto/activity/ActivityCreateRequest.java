@@ -10,47 +10,53 @@ import lombok.Setter;
 import java.util.List;
 
 /**
- * @Author zhouw
- * @Description
- * @Date 2021-08-23
+ * @author zhouw
+ * @description
+ * @date 2021-10-12
  */
 @Getter
 @Setter
-public class ActivityNitemSpecialCreateRequest extends BaseElemRequest {
+public class ActivityCreateRequest extends BaseElemRequest {
 
-    private static final long serialVersionUID = -1848807721276010125L;
+    private static final long serialVersionUID = -5975676846435743707L;
 
+    @JSONField(name = "supplier_id")
+    private String supplierId;
     @JSONField(name = "baidu_shop_id")
     private String baiduShopId;
     @JSONField(name = "shop_id")
     private String shopId;
     @JSONField(name = "store_id")
     private String storeId;
-    @JSONField(name = "supplier_id")
-    private String supplierId;
-    @JSONField(name = "activity_type")
-    private Integer activityType;
     @JSONField(name = "activity_name")
     private String activityName;
+    @JSONField(name = "activity_desc")
+    private String activityDesc;
+    @JSONField(name = "activity_type")
+    private Integer activityType;
     @JSONField(name = "child_type")
     private Integer childType;
-    @JSONField(name = "start_time")
-    private Long startTime;
-    @JSONField(name = "end_time")
-    private Long endTime;
     @JSONField(name = "open_time")
     private String openTime;
     @JSONField(name = "close_time")
     private String closeTime;
+    @JSONField(name = "start_time")
+    private Long startTime;
+    @JSONField(name = "end_time")
+    private Long endTime;
     private String weekday;
+    @JSONField(name = "day_limit")
+    private Integer dayLimit;
+    @JSONField(name = "total_limit")
+    private Integer totalLimit;
     @JSONField(name = "user_type")
     private Integer userType;
     @JSONField(name = "delivery_type")
     private Integer deliveryType;
-    @JSONField(name = "store_user_limit")
-    private Integer storeUserLimit;
-    @JSONField(name = "store_user_day_limit")
-    private Integer storeUserDayLimit;
+    @JSONField(name = "promotion_sku_desc")
+    private String promotionSkuDesc;
+    @JSONField(name = "show_category")
+    private String showCategory;
     @JSONField(name = "custom_activity_id")
     private String customActivityId;
 
@@ -60,14 +66,17 @@ public class ActivityNitemSpecialCreateRequest extends BaseElemRequest {
     @Getter
     @Setter
     public static class Rule {
-        private Integer hit;
+        private Integer accords;
+        private Double sale;
+        @JSONField(name = "sku_amount")
+        private Integer skuAmount;
         @JSONField(name = "special_price")
-        private Integer specialPrice;
+        private Double specialPrice;
     }
 
     @Override
     public String getCmd() {
-        return "activity.nitemspecial.create";
+        return "activity.create";
     }
 
     @Override
@@ -77,6 +86,6 @@ public class ActivityNitemSpecialCreateRequest extends BaseElemRequest {
 
     @Override
     public String getKeyword() {
-        return this.getCustomActivityId();
+        return customActivityId;
     }
 }
