@@ -10,13 +10,13 @@ import java.util.List;
 /**
  * @author zhouw
  * @description
- * @date 2021-10-08
+ * @date 2021-10-13
  */
 @Getter
 @Setter
-public class ActShopActDetailAddSingleResult extends ElemResponseData {
+public class ActShopActDetailAddResult extends ElemResponseData {
 
-    private static final long serialVersionUID = 2745570860535111800L;
+    private static final long serialVersionUID = 535953569961507118L;
 
     private Long activityId;
 
