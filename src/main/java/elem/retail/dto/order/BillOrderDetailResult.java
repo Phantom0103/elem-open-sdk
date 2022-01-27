@@ -116,7 +116,6 @@ public class BillOrderDetailResult extends ElemResponseData {
             private String tyingOrderTypeDesc;
             private long merchantRedPacket;
             private String bookTypeDesc;
-            private String isSelfDelivery;
             @JSONField(name = "addition_service_price")
             private String additionServicePrice;
             @JSONField(name = "slow_will_pay_amount")
