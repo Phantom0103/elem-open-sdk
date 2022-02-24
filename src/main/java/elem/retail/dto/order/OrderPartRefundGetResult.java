@@ -41,6 +41,14 @@ public class OrderPartRefundGetResult extends ElemResponseData {
     private int totalPrice;
     @JSONField(name = "is_refund_all")
     private int isRefundAll;
+    @JSONField(name = "is_return_goods")
+    private int isReturnGoods;
+    @JSONField(name = "return_goods_status")
+    private int returnGoodsStatus;
+    @JSONField(name = "fund_calculate_type")
+    private int fundCalculateType;
+    @JSONField(name = "shop_side_refund_price")
+    private int shopSideRefundPrice;
 
     @JSONField(name = "refund_detail")
     private List<RefundDetail> refundDetails;
@@ -50,6 +58,9 @@ public class OrderPartRefundGetResult extends ElemResponseData {
 
     @JSONField(name = "history_refund_detail")
     private List<List<HistoryRefundDetail>> historyRefundDetails;
+
+    @JSONField(name = "return_goods_info")
+    private ReturnGoodsInfo returnGoodsInfo;
 
     @Getter
     @Setter
@@ -107,6 +118,10 @@ public class OrderPartRefundGetResult extends ElemResponseData {
         @JSONField(name = "total_weight")
         private int totalWeight;
         private String upc;
+        @JSONField(name = "refundable_quantity")
+        private Long refundableQuantity;
+        @JSONField(name = "refundable_amount")
+        private Long refundableAmount;
 
         @JSONField(name = "product_features")
         private List<ProductFeature> productFeatures;
@@ -177,6 +192,9 @@ public class OrderPartRefundGetResult extends ElemResponseData {
         private int shopEleRefund;
         private String status;
         private String desc;
+        @JSONField(name = "history_fund_calculate_type")
+        private int historyFundCalculateType;
+
         @JSONField(name = "product_features")
         private List<ProductFeature> productFeatures;
     }
@@ -188,5 +206,24 @@ public class OrderPartRefundGetResult extends ElemResponseData {
         private Long baiduFeatureId;
         private String name;
         private String option;
+    }
+
+    @Getter
+    @Setter
+    public static class ReturnGoodsInfo {
+        @JSONField(name = "return_goods_type")
+        private int returnGoodsType;
+        @JSONField(name = "expect_pick_up_start_time", deserializeUsing = Long2DateDeserializer.class)
+        private Date expectPickUpStartTime;
+        @JSONField(name = "expect_pick_up_end_time", deserializeUsing = Long2DateDeserializer.class)
+        private Date expectPickUpEndTime;
+        @JSONField(name = "pick_up_address")
+        private String pickUpAddress;
+        @JSONField(name = "contact_name")
+        private String contactName;
+        @JSONField(name = "contact_phone")
+        private String contactPhone;
+        @JSONField(name = "privacy_contact_phone")
+        private String privacyContactPhone;
     }
 }

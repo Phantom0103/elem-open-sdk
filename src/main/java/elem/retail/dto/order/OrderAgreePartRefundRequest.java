@@ -18,6 +18,9 @@ import java.util.List;
 @Setter
 public class OrderAgreePartRefundRequest extends BaseElemRequest {
 
+    private static final long serialVersionUID = 311298369224812225L;
+
+    @JSONField(name = "order_id")
     private String orderId;
     @JSONField(name = "refund_id")
     private String refundId;
