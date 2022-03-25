@@ -25,6 +25,8 @@ public class OrderManyTimesPartRefundRequest extends BaseElemRequest {
     @JSONField(name = "idempotent_id")
     private String idempotentId;
     private String source;
+    @JSONField(name = "fund_calculate_type")
+    private int fundCalculateType;
 
     private List<Product> products;
 
@@ -38,6 +40,8 @@ public class OrderManyTimesPartRefundRequest extends BaseElemRequest {
         @JSONField(name = "sub_biz_order_id")
         private String subBizOrderId;
         private int number;
+        @JSONField(name = "refund_amount")
+        private Integer refundAmount;
     }
 
     @Override

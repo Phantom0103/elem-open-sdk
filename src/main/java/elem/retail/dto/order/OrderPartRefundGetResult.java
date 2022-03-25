@@ -49,6 +49,8 @@ public class OrderPartRefundGetResult extends ElemResponseData {
     private int fundCalculateType;
     @JSONField(name = "shop_side_refund_price")
     private int shopSideRefundPrice;
+    @JSONField(name = "three_card_no")
+    private String threeCardNo;
 
     @JSONField(name = "refund_detail")
     private List<RefundDetail> refundDetails;
@@ -225,5 +227,15 @@ public class OrderPartRefundGetResult extends ElemResponseData {
         private String contactPhone;
         @JSONField(name = "privacy_contact_phone")
         private String privacyContactPhone;
+    }
+
+    @Getter
+    @Setter
+    public static class RefundShopCard {
+        private int refundShopCardPrice;
+        private int baseShopCardPrice;
+        private int giveShopCardPrice;
+        private int platformGiveShopCardRate;
+        private int shopGiveShopCardRate;
     }
 }
