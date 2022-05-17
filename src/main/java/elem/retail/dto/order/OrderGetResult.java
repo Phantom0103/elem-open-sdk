@@ -101,6 +101,8 @@ public class OrderGetResult extends ElemResponseData {
         private int discountFee;
         @JSONField(name = "down_flag")
         private long downFlag;
+        @JSONField(name = "discount_down_flag")
+        private long discountDownFlag;
         @JSONField(name = "eleme_order_id")
         private String elemOrderId;
         @JSONField(name = "expect_time_mode")
