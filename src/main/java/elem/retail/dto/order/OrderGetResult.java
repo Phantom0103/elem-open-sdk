@@ -358,7 +358,7 @@ public class OrderGetResult extends ElemResponseData {
 
         @Getter
         @Setter
-        private static class CoordAmap {
+        public static class CoordAmap {
             private String latitude;
             private String longitude;
         }
