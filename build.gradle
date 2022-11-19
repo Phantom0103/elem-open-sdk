@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'io.github.phantom0103'
-version '2.5.4'
+version '2.5.5'
 
 sourceCompatibility = 1.8
 
