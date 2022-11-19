@@ -42,7 +42,7 @@ OrderGetExecutor executor = new OrderGetExecutor("your appid", "your secret", re
 * 默认的重试错误码："gw.ISPInvokeError", "gw.ISPConnectError", "gw.ISPInvokeTimeout"。
 * 重试3次，最多执行4次
 */
-AutoRetryFeature feature = new AutoRetryFeature(3, 500L, "UNKOWN");
+AutoRetryFeature feature = new AutoRetryFeature(3, 500L, "gw.UNKOWN");
 ElemResponse response = executor.execute(feature);
 
 if (ElemConstants.OK_CODE.equals(response.getCode())) {
